@@ -1,9 +1,7 @@
 ## 1. Escala de grises (promedio)
 
 $$
-\[
 \text{Gris} = \frac{R + G + B}{3}
-\]
 $$
 
 Se calcula un valor promedio (entero) y se asigna la misma intensidad a cada componente para formar un píxel en escala de grises.
@@ -14,13 +12,13 @@ Se calcula un valor promedio (entero) y se asigna la misma intensidad a cada com
 
 1. Se calcula el **promedio** de los tres canales:
 
-\[
+$$
 \text{promedio} = \frac{R + G + B}{3}
-\]
+$$
 
 2. Se compara el promedio con un **umbral** (threshold).  
-   - Si \(\text{promedio} > \text{umbral}\), el píxel se vuelve **blanco** (\(255,255,255\)).  
-   - Si \(\text{promedio} \le \text{umbral}\), el píxel se vuelve **negro** (\(0,0,0\)).
+   - Si $$\(\text{promedio} > \text{umbral}\)$$, el píxel se vuelve **blanco** ($$\(255,255,255\)$$).  
+   - Si $$\(\text{promedio} \le \text{umbral}\)$$, el píxel se vuelve **negro** ($$\(0,0,0\)$$).
 
 ---
 
