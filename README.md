@@ -106,13 +106,16 @@ Si prefieres compilar el proyecto en lugar de usar el `.jar`:
 
 A continuación se muestran algunas capturas del programa en funcionamiento. Las imágenes están en la carpeta `img/` del repositorio. Si prefieres verlas en GitHub, haz clic en cada imagen:
 
-### 1. Ventana Principal
+# 1. Ventana principal
 [![Ventana Principal]()
 
-### 2. Menú de Filtros
+# 2. Menu de opciones
 [![Menú de Filtros]()
 
-### 3. Resultado tras aplicar un filtro
+# 3. Abrir imagen
+[![Filtro de Bordes]()
+
+# 4. Aplicar un filtro
 [![Filtro de Bordes]()
 
 ## Personalización
