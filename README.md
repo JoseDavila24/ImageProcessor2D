@@ -68,7 +68,7 @@ Si prefieres compilar el proyecto en lugar de usar el `.jar`:
 
 1. **Clonar el repositorio** (si aún no lo has hecho):  
    ```bash
-   git clone https://github.com/usuario/mi-proyecto-imagenes.git
+   git clone https://github.com/JoseDavila24/ImageProcessor2D.git
    ```
    (Reemplaza la URL con la de tu repositorio real.)
 
