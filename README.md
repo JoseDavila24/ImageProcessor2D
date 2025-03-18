@@ -1,3 +1,7 @@
+Aquí tienes el README actualizado con **enlaces a las imágenes** ubicadas en la carpeta `img/` de tu repositorio GitHub. Ten en cuenta que, para que funcionen, debes tener las imágenes subidas y accesibles en la ruta especificada (sustituye `main` por la rama que corresponda, en caso de que no sea `main`):
+
+---
+
 # Procesamiento de Imágenes 2D
 
 Este proyecto consiste en una aplicación de escritorio en Java para realizar operaciones de procesamiento de imágenes en 2D. Incluye una interfaz gráfica (Swing) que permite abrir, guardar y cerrar imágenes, así como aplicar distintos filtros y transformaciones (binarización, escala de grises, filtros de suavizado, realce, morfología, etc.).
@@ -46,7 +50,7 @@ El proyecto se compone principalmente de dos clases:
 
 ## Clonar y ejecutar en Windows
 
-### Opción A: Ejecutar directamente el **ImageProcessor2D.jar**
+### Opción A: Ejecutar directamente el **ImageProcessor2D.jar** ⚙️
 
 1. **Descarga o copia** el archivo `ImageProcessor2D.jar` en una carpeta de tu elección.
 2. **Asegúrate** de tener Java correctamente instalado y accesible desde la línea de comandos (o al menos que los archivos JAR se abran con Java por defecto).
@@ -62,7 +66,7 @@ El proyecto se compone principalmente de dos clases:
 
    > **Alternativa:** Si en tu sistema Windows los archivos JAR se abren con doble clic (y Java está correctamente asociado), simplemente haz doble clic sobre `ImageProcessor2D.jar`.
 
-### Opción B: Compilar manualmente los archivos `.java`
+### Opción B: Compilar manualmente los archivos `.java` ⚙️
 
 Si prefieres compilar el proyecto en lugar de usar el `.jar`:
 
@@ -70,11 +74,11 @@ Si prefieres compilar el proyecto en lugar de usar el `.jar`:
    ```bash
    git clone https://github.com/JoseDavila24/ImageProcessor2D.git
    ```
-   (Reemplaza la URL con la de tu repositorio real.)
+   *(Reemplaza la URL con la de tu repositorio real, si es distinta.)*
 
 2. **Navegar hasta** la carpeta del proyecto:
    ```bash
-   cd mi-proyecto-imagenes
+   cd ImageProcessor2D
    ```
 
 3. **Compilar** los archivos `.java`:
@@ -84,7 +88,7 @@ Si prefieres compilar el proyecto en lugar de usar el `.jar`:
 
 4. **Ejecutar** la clase principal:
    ```bash
-   java Menu
+   java Main
    ```
 
 ## Uso de la aplicación
@@ -102,12 +106,27 @@ Si prefieres compilar el proyecto en lugar de usar el `.jar`:
    - `Archivo > Guardar como...` para guardar con un nombre/ruta diferente.
 5. **Cerrar** la imagen (sin cerrar la aplicación) con `Archivo > Cerrar`.
 
+## Capturas de pantalla 📸
+
+A continuación se muestran algunas capturas del programa en funcionamiento. Las imágenes están en la carpeta `img/` del repositorio. Si prefieres verlas en GitHub, haz clic en cada imagen:
+
+### 1. Ventana Principal
+[![Ventana Principal](https://github.com/JoseDavila24/ImageProcessor2D/blob/main/img/ventana-principal.png?raw=true)](https://github.com/JoseDavila24/ImageProcessor2D/blob/main/img/ventana-principal.png?raw=true)
+
+### 2. Menú de Filtros
+[![Menú de Filtros](https://github.com/JoseDavila24/ImageProcessor2D/blob/main/img/menu-filtros.png?raw=true)](https://github.com/JoseDavila24/ImageProcessor2D/blob/main/img/menu-filtros.png?raw=true)
+
+### 3. Resultado tras aplicar Filtros de Borde
+[![Filtro de Bordes](https://github.com/JoseDavila24/ImageProcessor2D/blob/main/img/filtro-bordes.png?raw=true)](https://github.com/JoseDavila24/ImageProcessor2D/blob/main/img/filtro-bordes.png?raw=true)
+
+*(Si tus imágenes tienen otros nombres o están en otra ruta, ajusta las URL. Asegúrate también de que tu repositorio contenga esos archivos de imagen.)*
+
 ## Personalización
 
 - En la clase `Menu`, puedes añadir o eliminar ítems de menú para adaptar la interfaz a tus necesidades.
 - En la clase `Operaciones`, puedes añadir nuevos métodos que implementen distintos tipos de filtros o transformaciones y luego añadir los correspondientes `JMenuItem` en `Menu` para poder aplicarlos desde la interfaz.
 
-## Contribuciones
+## Contribuciones 🙌
 
 ¡Las contribuciones son bienvenidas! Para aportar al proyecto:
 
@@ -118,5 +137,10 @@ Si prefieres compilar el proyecto en lugar de usar el `.jar`:
 5. Abre un **Pull Request** en este repositorio con tus cambios.
 
 ## Licencia
-Este proyecto está licenciado bajo los términos de la Licencia MIT.
-Por favor, revisa el archivo [LICENSE](https://github.com/JoseDavila24/ImageProcessor2D/blob/53d4658240f85148c616b5a1df2e2c08739885bc/LICENSE) para más detalles.
+
+Este proyecto está licenciado bajo los términos de la Licencia MIT.  
+Por favor, revisa el archivo [LICENSE](https://github.com/JoseDavila24/ImageProcessor2D/blob/main/LICENSE) para más detalles.
+
+---
+
+¡Y listo! Con estas URLs directas de GitHub, cualquier persona podrá hacer clic y ver tus capturas de pantalla en tamaño completo. Asegúrate de que los enlaces apunten exactamente a los archivos existentes en tu repositorio.
