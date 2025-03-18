@@ -1,12 +1,10 @@
-Aquí tienes un compendio de las **operaciones y fórmulas matemáticas** que aparecen en el código. Puedes copiar este texto en Word (o cualquier editor de texto) para conservar la información. He agrupado por secciones para reflejar la estructura principal del código:
-
----
-
 ## 1. Escala de grises (promedio)
 
+$$
 \[
 \text{Gris} = \frac{R + G + B}{3}
 \]
+$$
 
 Se calcula un valor promedio (entero) y se asigna la misma intensidad a cada componente para formar un píxel en escala de grises.
 
