@@ -106,17 +106,17 @@ Si prefieres compilar el proyecto en lugar de usar el `.jar`:
 
 A continuación se muestran algunas capturas del programa en funcionamiento. Las imágenes están en la carpeta `img/` del repositorio. Si prefieres verlas en GitHub, haz clic en cada imagen:
 
-# 1. Ventana principal
-[![Ventana Principal]()
+#### 1. Ventana principal
+[![Ventana principal](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Ventana%20Principal.png)
 
-# 2. Menu de opciones
-[![Menú de Filtros]()
+#### 2. Menu de opciones
+[![Menu de opciones](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Menu_de_opciones.png)
 
-# 3. Abrir imagen
-[![Filtro de Bordes]()
+#### 3. Abrir imagen
+[![Abrir imagen](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Abrir_imagen.png)
 
-# 4. Aplicar un filtro
-[![Filtro de Bordes]()
+#### 4. Aplicar un filtro
+[![Aplicar un filtro](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Aplicar_un_filtro.png)
 
 ## Personalización
 
