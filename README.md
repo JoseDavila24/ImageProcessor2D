@@ -118,10 +118,5 @@ Si prefieres compilar el proyecto en lugar de usar el `.jar`:
 5. Abre un **Pull Request** en este repositorio con tus cambios.
 
 ## Licencia
-
-Puedes usar la licencia de tu preferencia. Por ejemplo, bajo la licencia MIT:
-
-```
 Este proyecto está licenciado bajo los términos de la Licencia MIT.
 Por favor, revisa el archivo LICENSE para más detalles.
-```
