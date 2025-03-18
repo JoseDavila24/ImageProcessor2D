@@ -1,0 +1,218 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}     % Soporte para acentos y caracteres latinos
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}    % Paquetes para entornos y símbolos matemáticos
+\usepackage{graphicx}           % (Opcional) Para incluir imágenes
+\usepackage{hyperref}           % (Opcional) Para hipervínculos en el PDF
+
+\begin{document}
+
+\title{Operaciones Matemáticas del Código Java}
+\author{Tu nombre}
+\date{\today}
+\maketitle
+
+\section{Escala de Grises (Promedio)}
+
+La escala de grises se calcula obteniendo el promedio de los tres canales de color (R, G y B). 
+\[
+\text{Gris} = \frac{R + G + B}{3}.
+\]
+
+\section{Imagen Binaria}
+
+Para generar una imagen binaria, primero se calcula el promedio de los tres canales:
+\[
+\text{promedio} = \frac{R + G + B}{3}.
+\]
+Luego se compara con un umbral (\texttt{umbral}):
+\[
+\text{binario}(x, y) = 
+\begin{cases}
+255 & \text{si } \text{promedio} > \texttt{umbral},\\
+0   & \text{en caso contrario}.
+\end{cases}
+\]
+
+\section{Negativo}
+Para generar el negativo de la imagen:
+\[
+R' = 255 - R, 
+\quad G' = 255 - G, 
+\quad B' = 255 - B.
+\]
+
+\section{Ecualización de Histograma (en Grises)}
+
+\subsection{Conversión a Gris}
+\[
+\text{gris}(x, y) = \frac{R + G + B}{3}.
+\]
+
+\subsection{Cálculo de Histograma}
+\[
+\text{hist}[i] = \text{(número de píxeles con gris = } i), \quad i \in [0, 255].
+\]
+
+\subsection{Función de Distribución Acumulada (CDF)}
+\[
+\text{cdf}[0] = \text{hist}[0], \quad
+\text{cdf}[i] = \text{cdf}[i - 1] + \text{hist}[i], \quad i = 1, 2, \ldots, 255.
+\]
+\[
+\text{cdfMin} = \min \bigl\{\,\text{cdf}[i] > 0\bigr\}.
+\]
+
+\subsection{Look-Up Table (LUT)}
+Sea \(\text{totalPixeles} = \text{ancho} \times \text{alto}\). Para cada nivel \(i\):
+\[
+\text{lut}[i] = \left\lfloor \frac{(\text{cdf}[i] - \text{cdfMin}) \times 255}{\text{totalPixeles} - \text{cdfMin}} \right\rceil,
+\]
+donde se hace \(\text{clamp}\) a \([0, 255]\) si es necesario.
+
+\subsection{Aplicación de la LUT}
+\[
+\text{nuevoGris}(x, y) = \text{lut}\bigl[\text{gris}(x, y)\bigr].
+\]
+
+\section{Filtros de Suavizado}
+
+\subsection{Filtro de Media}
+Para una máscara de tamaño \(n \times n\):
+\[
+R_{\text{salida}} = \frac{ \sum \text{R}_{\text{vecinos}} }{n \times n}, \quad
+G_{\text{salida}} = \frac{ \sum \text{G}_{\text{vecinos}} }{n \times n}, \quad
+B_{\text{salida}} = \frac{ \sum \text{B}_{\text{vecinos}} }{n \times n}.
+\]
+
+\subsection{Filtro de Mediana}
+1. Se recogen los valores de cada canal en una ventana \(n \times n\).
+2. Se ordenan y se toma el valor central (mediana):
+\[
+R_{\text{salida}} = \text{mediana}(\{R_{\text{vecinos}}\}), \quad
+G_{\text{salida}} = \text{mediana}(\{G_{\text{vecinos}}\}), \quad
+B_{\text{salida}} = \text{mediana}(\{B_{\text{vecinos}}\}).
+\]
+
+\section{Filtros de Detección de Bordes}
+El proceso se hace por \textit{convolución} con diferentes \textit{kernels} de \(3 \times 3\).
+
+\subsection{Fórmula de Convolución (3x3)}
+\[
+\text{acumuladoR} = \sum_{i=-1}^{1} \sum_{j=-1}^{1} \bigl(R_{x+j,\,y+i} \times K[i+1][j+1]\bigr),
+\]
+y de forma análoga para G y B.
+
+\subsection{Filtro Sobel}
+\[
+K_x = 
+\begin{bmatrix}
+-1 & 0 & 1\\
+-2 & 0 & 2\\
+-1 & 0 & 1
+\end{bmatrix},
+\quad
+K_y =
+\begin{bmatrix}
+-1 & -2 & -1\\
+\;\,0 & \;\,0 & \;\,0\\
+\;\,1 & \;\,2 & \;\,1
+\end{bmatrix}.
+\]
+La magnitud resultante se obtiene con:
+\[
+R' = \sqrt{( \text{sumXr} )^2 + ( \text{sumYr} )^2},
+\quad
+G' = \sqrt{( \text{sumXg} )^2 + ( \text{sumYg} )^2},
+\quad
+B' = \sqrt{( \text{sumXb} )^2 + ( \text{sumYb} )^2}.
+\]
+
+\subsection{Filtro Prewitt}
+\[
+K_x = 
+\begin{bmatrix}
+-1 & 0 & 1\\
+-1 & 0 & 1\\
+-1 & 0 & 1
+\end{bmatrix},
+\quad
+K_y =
+\begin{bmatrix}
+-1 & -1 & -1\\
+\;\,0 & \;\,0 & \;\,0\\
+\;\,1 & \;\,1 & \;\,1
+\end{bmatrix}.
+\]
+Se usa la misma idea de magnitud que en Sobel.
+
+\subsection{Filtro Laplaciano}
+\[
+K =
+\begin{bmatrix}
+\;\,0 & -1 & \;\,0\\
+-1 & \;\,4 & -1\\
+\;\,0 & -1 & \;\,0
+\end{bmatrix}.
+\]
+No hay canal Y, se aplica solo un kernel y se suman los productos.
+
+\section{Morfología (Erosión y Dilatación)}
+
+Para una imagen en grises o binaria y un \textit{structElem} (\(m \times n\)):
+
+\subsection{Erosión}
+\[
+\text{valorRef} = \min \{ \text{gris}(x + \Delta x,\, y + \Delta y) \mid \text{structElem}(\Delta x,\Delta y) = 1\}.
+\]
+
+\subsection{Dilatación}
+\[
+\text{valorRef} = \max \{ \text{gris}(x + \Delta x,\, y + \Delta y) \mid \text{structElem}(\Delta x,\Delta y) = 1\}.
+\]
+
+\section{Filtros ``Simulados'' de Frecuencia}
+
+\subsection{Filtro Paso Bajo}
+Se puede usar un filtro de media (por ejemplo, \(5 \times 5\)) como un “paso bajo” básico.
+
+\subsection{Filtro Paso Alto}
+\[
+\text{HP}(x,y) = (\text{Original}(x,y) - \text{Blur}(x,y)) + 128.
+\]
+Por componentes:
+\[
+R' = R_{\text{orig}} - R_{\text{blur}} + 128, \quad
+G' = G_{\text{orig}} - G_{\text{blur}} + 128, \quad
+B' = B_{\text{orig}} - B_{\text{blur}} + 128.
+\]
+
+\subsection{Filtro Paso Banda}
+En el ejemplo del código, se deja como retorno directo de la imagen (sin efecto real).
+
+\section{Clampeo (\textit{Clamp})}
+
+Los valores finales de cada canal se ajustan al rango \([0, 255]\):
+\[
+\text{val} = 
+\begin{cases}
+0 & \text{si } \text{val} < 0,\\
+255 & \text{si } \text{val} > 255,\\
+\text{val} & \text{en caso contrario}.
+\end{cases}
+\]
+
+\section{Clampeo de Índices}
+
+Para no salir del rango de la imagen:
+\[
+\text{idxClamped} = 
+\begin{cases}
+\text{min} & \text{si } \text{idx} < \text{min},\\
+\text{max} & \text{si } \text{idx} > \text{max},\\
+\text{idx} & \text{en otro caso}.
+\end{cases}
+\]
+
+\end{document}
