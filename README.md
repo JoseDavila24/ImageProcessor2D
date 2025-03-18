@@ -119,4 +119,4 @@ Si prefieres compilar el proyecto en lugar de usar el `.jar`:
 
 ## Licencia
 Este proyecto está licenciado bajo los términos de la Licencia MIT.
-Por favor, revisa el archivo LICENSE para más detalles.
+Por favor, revisa el archivo [LICENSE](https://github.com/JoseDavila24/ImageProcessor2D/blob/53d4658240f85148c616b5a1df2e2c08739885bc/LICENSE) para más detalles.
