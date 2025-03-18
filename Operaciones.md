@@ -36,7 +36,7 @@ $$
 
 1. **Conversión a gris**:  
    $$
-   \text{gris}(x, y) = \frac{R + G + B}{3}
+   \text{gris}\(x, y) = \frac{R + G + B}{3}
    $$
 
 2. **Histograma** $$\(\text{hist}[i]\)$$: contador de cuántos píxeles tienen nivel de gris $$\(i\)$$ (entre 0 y 255).
