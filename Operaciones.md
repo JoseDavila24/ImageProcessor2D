@@ -40,7 +40,7 @@ Se convierte cada píxel a binario (0 o 255) según un umbral fijo.
    \text{gray} = \frac{R + G + B}{3}
    $$
 
-2. Asignación binaria según el umbral \(\text{umbral}\):
+2. Asignación binaria según el umbral $$\(\text{umbral}\)$$:
 
    $$
    \text{pixelBinario} =
