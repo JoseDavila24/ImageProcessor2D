@@ -26,37 +26,37 @@ $$
 
 Para cada componente (R, G, B) se aplica:
 
-\[
+$$
 R' = 255 - R, \quad G' = 255 - G, \quad B' = 255 - B
-\]
+$$
 
 ---
 
 ## 4. Ecualización de histograma en grises
 
 1. **Conversión a gris**:  
-   \[
+   $$
    \text{gris}(x, y) = \frac{R + G + B}{3}
-   \]
+   $$
 
-2. **Histograma** \(\text{hist}[i]\): contador de cuántos píxeles tienen nivel de gris \(i\) (entre 0 y 255).
+2. **Histograma** $$\(\text{hist}[i]\)$$: contador de cuántos píxeles tienen nivel de gris $$\(i\)$$ (entre 0 y 255).
 
 3. **CDF (función de distribución acumulada)**:
 
-\[
+$$
 \text{cdf}[0] = \text{hist}[0]
-\]
-\[
+$$
+$$
 \text{cdf}[i] = \text{cdf}[i-1] + \text{hist}[i] \quad \text{para } i = 1, 2, \dots, 255
-\]
+$$
 
-4. **Búsqueda de \( \text{cdfMin} \)**: el primer valor de \(\text{cdf}[i]\) distinto de cero.
+4. **Búsqueda de $$ \text{cdfMin} $$**: el primer valor de $$\text{cdf}[i]$$ distinto de cero.
 
 5. **LUT (Look-Up Table)**:
 
-\[
+$$
 \text{lut}[i] = \text{round} \Bigl( \frac{(\text{cdf}[i] - \text{cdfMin}) \times 255}{(\text{totalPixeles} - \text{cdfMin})} \Bigr)
-\]
+$$
 
 6. **Aplicación**:  
    \[
