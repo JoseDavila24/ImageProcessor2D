@@ -20,6 +20,13 @@ La escala de grises se calcula obteniendo el promedio de los tres canales de col
 \text{Gris} = \frac{R + G + B}{3}.
 \]
 
+\subsection{Mini Ejemplo}
+Supongamos un píxel con valores \(R = 100\), \(G = 150\), \(B = 200\). Entonces:
+\[
+\text{Gris} = \frac{100 + 150 + 200}{3} = 150.
+\]
+El píxel resultante tendrá un valor de gris de 150.
+
 \section{Imagen Binaria}
 
 Para generar una imagen binaria, primero se calcula el promedio de los tres canales:
@@ -35,6 +42,13 @@ Luego se compara con un umbral (\texttt{umbral}):
 \end{cases}
 \]
 
+\subsection{Mini Ejemplo}
+Sea un píxel con \(R = 50\), \(G = 100\), \(B = 150\) y un umbral de 100. Entonces:
+\[
+\text{promedio} = \frac{50 + 100 + 150}{3} = 100.
+\]
+Como \(\text{promedio} = 100 \leq \texttt{umbral}\), el píxel se establece en 0 (negro).
+
 \section{Negativo}
 Para generar el negativo de la imagen:
 \[
@@ -42,6 +56,15 @@ R' = 255 - R,
 \quad G' = 255 - G, 
 \quad B' = 255 - B.
 \]
+
+\subsection{Mini Ejemplo}
+Para un píxel con \(R = 100\), \(G = 150\), \(B = 200\):
+\[
+R' = 255 - 100 = 155, \quad
+G' = 255 - 150 = 105, \quad
+B' = 255 - 200 = 55.
+\]
+El píxel resultante será \((155, 105, 55)\).
 
 \section{Ecualización de Histograma (en Grises)}
 
@@ -76,6 +99,37 @@ donde se hace \(\text{clamp}\) a \([0, 255]\) si es necesario.
 \text{nuevoGris}(x, y) = \text{lut}\bigl[\text{gris}(x, y)\bigr].
 \]
 
+\subsection{Mini Ejemplo}
+Supongamos una imagen de \(2 \times 2\) con valores de gris: \([50, 100, 150, 200]\).
+
+1. **Histograma**:
+   \[
+   \text{hist}[50] = 1, \quad \text{hist}[100] = 1, \quad \text{hist}[150] = 1, \quad \text{hist}[200] = 1.
+   \]
+
+2. **CDF**:
+   \[
+   \text{cdf}[50] = 1, \quad \text{cdf}[100] = 2, \quad \text{cdf}[150] = 3, \quad \text{cdf}[200] = 4.
+   \]
+   \(\text{cdfMin} = 1\).
+
+3. **LUT**:
+   \[
+   \text{lut}[50] = \left\lfloor \frac{(1 - 1) \times 255}{4 - 1} \right\rceil = 0,
+   \]
+   \[
+   \text{lut}[100] = \left\lfloor \frac{(2 - 1) \times 255}{3} \right\rceil = 85,
+   \]
+   \[
+   \text{lut}[150] = \left\lfloor \frac{(3 - 1) \times 255}{3} \right\rceil = 170,
+   \]
+   \[
+   \text{lut}[200] = \left\lfloor \frac{(4 - 1) \times 255}{3} \right\rceil = 255.
+   \]
+
+4. **Aplicación de LUT**:
+   Los nuevos valores de gris son: \([0, 85, 170, 255]\).
+
 \section{Filtros de Suavizado}
 
 \subsection{Filtro de Media}
@@ -86,23 +140,21 @@ G_{\text{salida}} = \frac{ \sum \text{G}_{\text{vecinos}} }{n \times n}, \quad
 B_{\text{salida}} = \frac{ \sum \text{B}_{\text{vecinos}} }{n \times n}.
 \]
 
-\subsection{Filtro de Mediana}
-1. Se recogen los valores de cada canal en una ventana \(n \times n\).
-2. Se ordenan y se toma el valor central (mediana):
+\subsection{Mini Ejemplo}
+Sea una ventana \(3 \times 3\) con valores de \(R\):
 \[
-R_{\text{salida}} = \text{mediana}(\{R_{\text{vecinos}}\}), \quad
-G_{\text{salida}} = \text{mediana}(\{G_{\text{vecinos}}\}), \quad
-B_{\text{salida}} = \text{mediana}(\{B_{\text{vecinos}}\}).
+\begin{bmatrix}
+10 & 20 & 30\\
+40 & 50 & 60\\
+70 & 80 & 90
+\end{bmatrix}.
+\]
+El valor central se calcula como:
+\[
+R_{\text{salida}} = \frac{10 + 20 + 30 + 40 + 50 + 60 + 70 + 80 + 90}{9} = 50.
 \]
 
 \section{Filtros de Detección de Bordes}
-El proceso se hace por \textit{convolución} con diferentes \textit{kernels} de \(3 \times 3\).
-
-\subsection{Fórmula de Convolución (3x3)}
-\[
-\text{acumuladoR} = \sum_{i=-1}^{1} \sum_{j=-1}^{1} \bigl(R_{x+j,\,y+i} \times K[i+1][j+1]\bigr),
-\]
-y de forma análoga para G y B.
 
 \subsection{Filtro Sobel}
 \[
@@ -122,74 +174,29 @@ K_y =
 \]
 La magnitud resultante se obtiene con:
 \[
-R' = \sqrt{( \text{sumXr} )^2 + ( \text{sumYr} )^2},
-\quad
-G' = \sqrt{( \text{sumXg} )^2 + ( \text{sumYg} )^2},
-\quad
-B' = \sqrt{( \text{sumXb} )^2 + ( \text{sumYb} )^2}.
+R' = \sqrt{( \text{sumXr} )^2 + ( \text{sumYr} )^2}.
 \]
 
-\subsection{Filtro Prewitt}
+\subsection{Mini Ejemplo}
+Para una ventana \(3 \times 3\) con valores de \(R\):
 \[
-K_x = 
 \begin{bmatrix}
--1 & 0 & 1\\
--1 & 0 & 1\\
--1 & 0 & 1
+10 & 20 & 30\\
+40 & 50 & 60\\
+70 & 80 & 90
 \end{bmatrix},
-\quad
-K_y =
-\begin{bmatrix}
--1 & -1 & -1\\
-\;\,0 & \;\,0 & \;\,0\\
-\;\,1 & \;\,1 & \;\,1
-\end{bmatrix}.
 \]
-Se usa la misma idea de magnitud que en Sobel.
-
-\subsection{Filtro Laplaciano}
+las sumas son:
 \[
-K =
-\begin{bmatrix}
-\;\,0 & -1 & \;\,0\\
--1 & \;\,4 & -1\\
-\;\,0 & -1 & \;\,0
-\end{bmatrix}.
+\text{sumXr} = (-1 \times 10) + (1 \times 30) + (-2 \times 40) + (2 \times 60) + (-1 \times 70) + (1 \times 90) = 80,
 \]
-No hay canal Y, se aplica solo un kernel y se suman los productos.
-
-\section{Morfología (Erosión y Dilatación)}
-
-Para una imagen en grises o binaria y un \textit{structElem} (\(m \times n\)):
-
-\subsection{Erosión}
 \[
-\text{valorRef} = \min \{ \text{gris}(x + \Delta x,\, y + \Delta y) \mid \text{structElem}(\Delta x,\Delta y) = 1\}.
+\text{sumYr} = (-1 \times 10) + (-2 \times 20) + (-1 \times 30) + (1 \times 70) + (2 \times 80) + (1 \times 90) = 160.
 \]
-
-\subsection{Dilatación}
+La magnitud es:
 \[
-\text{valorRef} = \max \{ \text{gris}(x + \Delta x,\, y + \Delta y) \mid \text{structElem}(\Delta x,\Delta y) = 1\}.
+R' = \sqrt{80^2 + 160^2} = \sqrt{6400 + 25600} = \sqrt{32000} \approx 178.89.
 \]
-
-\section{Filtros ``Simulados'' de Frecuencia}
-
-\subsection{Filtro Paso Bajo}
-Se puede usar un filtro de media (por ejemplo, \(5 \times 5\)) como un “paso bajo” básico.
-
-\subsection{Filtro Paso Alto}
-\[
-\text{HP}(x,y) = (\text{Original}(x,y) - \text{Blur}(x,y)) + 128.
-\]
-Por componentes:
-\[
-R' = R_{\text{orig}} - R_{\text{blur}} + 128, \quad
-G' = G_{\text{orig}} - G_{\text{blur}} + 128, \quad
-B' = B_{\text{orig}} - B_{\text{blur}} + 128.
-\]
-
-\subsection{Filtro Paso Banda}
-En el ejemplo del código, se deja como retorno directo de la imagen (sin efecto real).
 
 \section{Clampeo (\textit{Clamp})}
 
@@ -203,16 +210,7 @@ Los valores finales de cada canal se ajustan al rango \([0, 255]\):
 \end{cases}
 \]
 
-\section{Clampeo de Índices}
-
-Para no salir del rango de la imagen:
-\[
-\text{idxClamped} = 
-\begin{cases}
-\text{min} & \text{si } \text{idx} < \text{min},\\
-\text{max} & \text{si } \text{idx} > \text{max},\\
-\text{idx} & \text{en otro caso}.
-\end{cases}
-\]
+\subsection{Mini Ejemplo}
+Si \(\text{val} = 300\), entonces \(\text{val} = 255\). Si \(\text{val} = -10\), entonces \(\text{val} = 0\).
 
 \end{document}
