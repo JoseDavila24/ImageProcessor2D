@@ -40,7 +40,7 @@ El proyecto se compone principalmente de dos clases:
 
 ## Documentación adicional 📄
 
-Para mayor detalle sobre la **implementación** y la **teoría** de las operaciones de imagen, revisa el documento [**operaciones.pdf**](https://github.com/JoseDavila24/ImageProcessor2D/blob/f368046371d7366a0909ab3b7afcc800d46b392a/operaciones.pdf) incluido en el repositorio. Allí encontrarás descripciones más técnicas de cada filtro y su lógica interna.
+Para mayor detalle sobre la **implementación** y la **teoría** de las operaciones de imagen, revisa el documento **formulas.pdf** incluido en el repositorio. Allí encontrarás descripciones más técnicas de cada filtro y su lógica interna.
 
 ## Requisitos previos ✅
 
