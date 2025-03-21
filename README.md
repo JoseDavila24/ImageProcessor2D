@@ -136,3 +136,9 @@ A continuación se muestran algunas capturas del programa en funcionamiento. Si 
 
 Este proyecto está licenciado bajo los términos de la Licencia MIT.  
 Por favor, revisa el archivo [LICENSE](https://github.com/JoseDavila24/ImageProcessor2D/blob/main/LICENSE) para más detalles.
+
+## Referencias
+
+Jercyae. (n.d.). GitHub - jercyae7/editor-de-imagenes: manipulacion de imagenes. GitHub. https://github.com/jercyae7/editor-de-imagenes.git
+
+Torres, A. D. (1996). Procesamiento digital de imágenes. Perfiles Educativos, 72. https://www.redalyc.org/pdf/132/13207206.pdf
