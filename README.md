@@ -1,167 +1,144 @@
-# **Procesamiento de Imágenes 2D en Java**
+# Procesamiento de Imágenes 2D ✨
 
-## **Introducción**
+Este proyecto consiste en una aplicación de escritorio en Java para realizar operaciones de procesamiento de imágenes en 2D. Incluye una interfaz gráfica (Swing) que permite **abrir**, **guardar** y **cerrar** imágenes, así como aplicar **filtros** y **transformaciones** como binarización, escala de grises, suavizado, realce, morfología, etc.
 
-El procesamiento de imágenes es una disciplina fundamental en el campo de la visión por computadora y la gráfica computacional. En esta actividad, se ha desarrollado un software en Java con una interfaz gráfica de usuario (GUI) para la manipulación y análisis de imágenes en 2D.
+## Características principales ⚡
 
-El objetivo principal es implementar diversas técnicas de procesamiento digital de imágenes, como conversión a escala de grises, binarización, aplicación de filtros espaciales y morfológicos, así como análisis en el dominio de la frecuencia.
+- **Interfaz gráfica** construida con Java Swing (clase `Menu`).
+- **Operaciones de edición**: deshacer (undo) y rehacer (redo).
+- **Transformaciones de imagen**:  
+  - Conversión a escala de grises.  
+  - Conversión a binaria (blanco/negro) con umbral configurable.  
+  - Negativo.  
+  - Histograma (ecualización en escala de grises).  
+- **Filtros**:
+  - Suavizado (filtro de media y mediana).
+  - Detección de bordes (Sobel, Prewitt, Laplaciano).
+  - Filtros morfológicos (erosión, dilatación, etc.).
+  - Filtros simulados de frecuencia (paso bajo, paso alto, paso banda).
+- **Pilas de deshacer y rehacer** para gestionar los cambios realizados.
 
-El desarrollo del software se llevó a cabo en GitHub, donde se encuentra disponible el código fuente junto con documentación detallada sobre su funcionamiento. Además, en el repositorio se incluye un archivo PDF que explica las operaciones necesarias para implementar los distintos filtros y transformaciones aplicadas a las imágenes.
+## Estructura del proyecto 📂
 
+El proyecto se compone principalmente de dos clases:
 
-## **Características Principales**
+1. **Menu**  
+   Se encarga de la interfaz gráfica con menús, acciones y la gestión de:  
+   - Abrir, guardar y cerrar imágenes.  
+   - Menús para aplicar distintos filtros.  
+   - Pila de acciones (undo, redo).  
+   - Redimensionado automático de la imagen dentro de un `JScrollPane`.
 
-- Interfaz gráfica desarrollada con Java Swing (`Menu.java`)
-- Edición con funcionalidades de deshacer y rehacer
-- Transformaciones de imagen:
-  - Conversión a escala de grises (optimizada con paralelización)
-  - Conversión a binaria con umbral configurable
-  - Imagen negativa
-  - Histograma con representación visual interactiva
-- Filtros espaciales:
-  - Suavizado: media, mediana
-  - Realce: Sobel, Prewitt, Laplaciano
-- Filtros morfológicos:
-  - Erosión, dilatación
-  - Apertura y cierre
-  - Esqueletonización iterativa
-- Filtros simulados de frecuencia:
-  - Paso bajo (media)
-  - Paso alto (original - suavizado)
-  - Paso banda (combinación)
-- Pilas de deshacer/rehacer para edición no destructiva
+2. **Operaciones**  
+   Contiene métodos estáticos que realizan las transformaciones y filtros sobre un objeto `BufferedImage`. Por ejemplo:
+   - Conversión a escala de grises (`escalaDeGrises`).
+   - Negativo (`negativo`).
+   - Filtro de media y mediana (`filtroMedia`, `filtroMediana`).
+   - Detección de bordes (`filtroSobel`, `filtroPrewitt`, `filtroLaplaciano`).
+   - Morfología matemática binaria (`erosion3x3`, `dilatacion3x3`).
+   - Filtros “simulados” de frecuencia (`filtroPasoBajo`, `filtroPasoAlto`, `filtroPasoBanda`).
 
----
+## Documentación adicional 📄
 
-## **Estructura del Proyecto**
+Para mayor detalle sobre la **implementación** y la **teoría** de las operaciones de imagen, revisa el documento **formulas.pdf** incluido en el repositorio. Allí encontrarás descripciones más técnicas de cada filtro y su lógica interna.
 
-### 1. Menu.java
+## Requisitos previos ✅
 
-- Control de interfaz gráfica (menús, botones, imágenes)
-- Aplicación de filtros mediante funciones
-- Manejo de eventos
-- Control de imagen cargada
-- Pila de deshacer/rehacer
-- Visualización escalada en `JScrollPane`
+- **Java 8** o posterior (JDK o JRE) instalado en tu sistema.
+- (Opcional) Un IDE como IntelliJ IDEA, Eclipse o NetBeans para abrir y compilar el proyecto con mayor facilidad.
+- **Git** para clonar el repositorio (si planeas descargarlo desde GitHub).
 
-### 2. Operaciones.java
+## Clonar y ejecutar en Windows
 
-Contiene todos los filtros implementados como métodos estáticos sobre objetos `BufferedImage`, incluyendo:
+### Opción A: Ejecutar directamente el **ImageProcessor2D.jar** ⚙️
 
-- `escalaDeGrises()`
-- `imagenBinaria(umbral)`
-- `negativo()`
-- `filtroMedia(tamaño)`, `filtroMediana(tamaño)`
-- `filtroSobel()`, `filtroPrewitt()`, `filtroLaplaciano()`
-- `erosion3x3()`, `dilatacion3x3()`, `apertura3x3()`, `cierre3x3()`, `esqueletonizacion3x3()`
-- `filtroPasoBajo()`, `filtroPasoAlto()`, `filtroPasoBanda()`
-
-### 3. HistogramaPanel.java
-
-- Componente personalizado para visualizar el histograma de la imagen actual.
-- Etiquetas en el eje X (niveles de gris) y eje Y (frecuencia).
-
----
-
-## **Requisitos Previos**
-
-- Java 8 o superior instalado
-- IDE como IntelliJ IDEA, Eclipse o NetBeans (opcional)
-- Git (opcional)
-
----
-
-## **Clonar y Ejecutar en Windows**
-
-### Opción A: Ejecutar el archivo JAR
-
-1. Descarga o copia `ImageProcessor2D.jar`  
-2. Asegúrate de tener Java instalado  
-3. Abre una terminal (CMD o PowerShell) y navega al directorio donde se encuentra el JAR:
+1. **Descarga o copia** el archivo `ImageProcessor2D.jar` en una carpeta de tu elección.
+2. **Asegúrate** de tener Java correctamente instalado y accesible desde la línea de comandos (o que los archivos JAR se abran con Java por defecto).
+3. **Abre** una ventana de **Símbolo del sistema** (CMD) o **PowerShell** y navega hasta la carpeta donde tengas el `ImageProcessor2D.jar`. Por ejemplo:
+   ```bash
+   cd C:\Users\TuUsuario\Documents\ImageProcessor2D
    ```
-   cd C:\Ruta\al\proyecto
+4. **Ejecútalo** con el siguiente comando:
+   ```bash
    java -jar ImageProcessor2D.jar
    ```
-   También puedes hacer doble clic si Java está bien configurado.
+   Esto abrirá la ventana de la aplicación con la interfaz gráfica.
 
-### Opción B: Compilar manualmente
+   > **Alternativa:** Si en tu sistema Windows los archivos JAR se abren con doble clic (y Java está correctamente asociado), simplemente haz doble clic sobre `ImageProcessor2D.jar`.
 
-1. Clona el repositorio:
-   ```
+### Opción B: Compilar manualmente los archivos `.java` ⚙️
+
+Si prefieres compilar el proyecto en lugar de usar el `.jar`:
+
+1. **Clona el repositorio** (si aún no lo has hecho):
+   ```bash
    git clone https://github.com/JoseDavila24/ImageProcessor2D.git
+   ```
+2. **Navega** hasta la carpeta del proyecto:
+   ```bash
    cd ImageProcessor2D
    ```
-2. Compila:
+3. **Compila** los archivos `.java`:
+   ```bash
+   javac Menu.java Operaciones.java
    ```
-   javac Menu.java Operaciones.java HistogramaPanel.java Main.java
-   ```
-3. Ejecuta:
-   ```
+4. **Ejecuta** la clase principal (asegúrate de que sea `Main` o `Menu`, según tu código real):
+   ```bash
    java Main
    ```
 
----
+## Uso de la aplicación 🚀
 
-## **Uso de la Aplicación**
+1. **Abrir imagen**: Ve al menú `Archivo > Abrir imagen`. Aparecerá un diálogo para seleccionar el archivo de imagen.
+2. **Aplicar filtros o transformaciones**: 
+   - Encuéntralos en los menús `Imagen` o `Filtros`.
+   - Algunos filtros (p. ej., binarización) solicitarán un valor numérico (tamaño de máscara, umbral, etc.).
+3. **Deshacer/Rehacer**:  
+   - `Edición > Deshacer` para revertir el último cambio.
+   - `Edición > Rehacer` para restaurar un cambio deshecho.
+4. **Guardar la imagen**:
+   - `Archivo > Guardar imagen` para guardar en el archivo actual.
+   - `Archivo > Guardar como...` para elegir un nombre/ruta diferente.
+5. **Cerrar** la imagen (sin salir de la aplicación) con `Archivo > Cerrar`.
 
-1. **Abrir imagen**: Menú "Archivo > Abrir imagen".
-2. **Aplicar filtros**: Menús "Imagen" o "Filtros".
-3. **Filtros con parámetros**: Se solicita valor de entrada (umbral, tamaño).
-4. **Deshacer/Rehacer**: Menú "Edición".
-5. **Guardar imagen**: "Archivo > Guardar" o "Guardar como..."
-6. **Cerrar imagen**: "Archivo > Cerrar".
+## Capturas de pantalla 📸
 
----
+A continuación se muestran algunas capturas del programa en funcionamiento. Si prefieres verlas en GitHub, haz clic en cada imagen:
 
-## **Capturas de Pantalla**
+#### 1. Ventana principal
+![Ventana principal](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Ventana%20Principal.png?raw=true)
 
-(Insertar imágenes reales si deseas aquí, o reemplaza las descripciones por las imágenes en Word)
+#### 2. Menú de opciones
+![Menú de opciones](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Menu_de_opciones.png?raw=true)
 
-1. **Ventana principal**  
-2. **Menú de filtros activos**
-3. **Histograma con leyendas**
-4. **Aplicación de filtro de bordes**
+#### 3. Abrir imagen
+![Abrir imagen](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Abrir_imagen.png?raw=true)
 
----
+#### 4. Aplicar un filtro
+![Aplicar un filtro](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Aplicar_un_filtro.png?raw=true)
 
-## **Personalización del Proyecto**
+## Personalización 🔧
 
-- Puedes agregar nuevos filtros en `Operaciones.java`
-- En `Menu.java`, añade el `JMenuItem` correspondiente y conéctalo al filtro
-- Ideal para experimentar con otros modelos de color o filtros de convolución
+- En la clase `Menu`, puedes añadir o eliminar ítems de menú para adaptar la interfaz a tus necesidades.
+- En la clase `Operaciones`, puedes añadir nuevos métodos que implementen distintos tipos de filtros o transformaciones y luego crear los `JMenuItem` correspondientes en `Menu` para invocarlos.
 
----
+## Contribuciones 🙌
 
-## **Contribuciones**
+¡Las contribuciones son bienvenidas! Para aportar al proyecto:
 
-Para colaborar con el proyecto:
+1. Haz un **fork** de este repositorio.
+2. Crea una rama (`git checkout -b mi-nueva-funcionalidad`).
+3. Realiza tus modificaciones y confirma los cambios (`git commit -m "Agrego nuevo filtro de XYZ"`).
+4. Envía tus cambios a tu repositorio remoto (`git push origin mi-nueva-funcionalidad`).
+5. Abre un **Pull Request** en este repositorio con tus cambios.
 
-1. Realiza un fork del repositorio
-2. Crea una nueva rama para tu funcionalidad
-3. Realiza tus cambios y confirma (`commit`)
-4. Haz un pull request con tu propuesta
+## Licencia 📜
 
----
+Este proyecto está licenciado bajo los términos de la Licencia MIT.  
+Por favor, revisa el archivo [LICENSE](https://github.com/JoseDavila24/ImageProcessor2D/blob/main/LICENSE) para más detalles.
 
-## **Licencia**
+## Referencias
 
-Este proyecto está bajo licencia MIT. Consulta el archivo `LICENSE` en el repositorio.
+Jercyae. (n.d.). GitHub - jercyae7/editor-de-imagenes: manipulacion de imagenes. GitHub. https://github.com/jercyae7/editor-de-imagenes.git
 
----
-
-## **Referencias**
-
-- Jercyae. GitHub - editor de imágenes:  
-  https://github.com/jercyae7/editor-de-imagenes.git
-
-- Torres, A. D. (1996). Procesamiento digital de imágenes.  
-  Perfiles Educativos, 72.  
-  https://www.redalyc.org/pdf/132/13207206.pdf
-
----
-
-## **Conclusión**
-
-El uso de GitHub en este proyecto resultó fundamental, no solo para gestionar el código y la documentación, sino también para acostumbrarme a un entorno ampliamente utilizado en el desarrollo de software.
-
-Como estudiante de Ingeniería en Sistemas Computacionales, familiarizarme con herramientas de control de versiones es esencial, ya que facilita la colaboración, el seguimiento de cambios y la organización de proyectos. Esta experiencia me ha permitido mejorar mis habilidades en el manejo de repositorios, lo que será de gran utilidad en futuros desarrollos dentro del ámbito de TI.
+Torres, A. D. (1996). Procesamiento digital de imágenes. Perfiles Educativos, 72. https://www.redalyc.org/pdf/132/13207206.pdf
