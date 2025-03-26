@@ -194,6 +194,10 @@ public class Menu extends JFrame {
         pasoBajoItem.addActionListener(e -> aplicarFiltroPasoBajo());
         pasoAltoItem.addActionListener(e -> aplicarFiltroPasoAlto());
         pasoBandaItem.addActionListener(e -> aplicarFiltroPasoBanda());
+
+        aperturaItem.addActionListener(e -> aplicarApertura());
+        cierreItem.addActionListener(e -> aplicarCierre());
+        esqueletonizacionItem.addActionListener(e -> aplicarEsqueletonizacion());
     }
 
     /**
@@ -355,10 +359,17 @@ public class Menu extends JFrame {
     }
 
     private void mostrarHistograma() {
-        // El código original ecualizaba la imagen
-        aplicarOperacion(Operaciones::ecualizarHistogramaGrises);
+        if (!checkImageLoaded()) return;
+        int[] histograma = Operaciones.calcularHistogramaGrises(currentImage);
+    
+        JFrame histogramaFrame = new JFrame("Histograma de Intensidad (Grises)");
+        histogramaFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        histogramaFrame.add(new HistogramaPanel(histograma));
+        histogramaFrame.pack();
+        histogramaFrame.setLocationRelativeTo(this);
+        histogramaFrame.setVisible(true);
     }
-
+    
     private void aplicarFiltroMedia() {
         aplicarOperacionConEntero(
             "Introduce el tamaño de la máscara (3, 5, 7, ...):",
@@ -408,6 +419,18 @@ public class Menu extends JFrame {
     private void aplicarFiltroPasoBanda() {
         aplicarOperacion(Operaciones::filtroPasoBanda);
     }
+    private void aplicarApertura() {
+        aplicarOperacion(Operaciones::apertura3x3);
+    }
+    
+    private void aplicarCierre() {
+        aplicarOperacion(Operaciones::cierre3x3);
+    }
+    
+    private void aplicarEsqueletonizacion() {
+        aplicarOperacion(Operaciones::esqueletonizacion3x3);
+    }
+    
 
     // ---------------------------------------------
     // Métodos de utilidad
@@ -501,4 +524,6 @@ public class Menu extends JFrame {
             menu.setVisible(true);
         });
     }
+
+    
 }

@@ -1,0 +1,173 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\title{Procesamiento de Imágenes 2D en Java}
+\author{Autor: Jose Maria Romero Davila}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introducción}
+
+El procesamiento de imágenes es una disciplina fundamental en el campo de la visión por computadora y la gráfica computacional. En esta actividad, se ha desarrollado un software en Java con una interfaz gráfica de usuario (GUI) para la manipulación y análisis de imágenes en 2D. 
+
+El objetivo principal es implementar diversas técnicas de procesamiento digital de imágenes, como conversión a escala de grises, binarización, aplicación de filtros espaciales y morfológicos, así como análisis en el dominio de la frecuencia.
+
+El desarrollo del software se llevó a cabo en GitHub, donde se encuentra disponible el código fuente junto con documentación detallada sobre su funcionamiento. 
+
+\textbf{Repositorio en GitHub:} \url{https://github.com/JoseDavila24/ImageProcessor2D}
+
+\section{Resumen del Proyecto}
+
+Este proyecto es una aplicación de escritorio desarrollada en Java para realizar operaciones de procesamiento digital de imágenes bidimensionales. Utiliza una interfaz gráfica implementada con \texttt{Swing} para permitir al usuario:
+
+\begin{itemize}
+    \item Abrir, visualizar y guardar imágenes.
+    \item Aplicar una variedad de filtros y transformaciones.
+    \item Usar herramientas como histograma, undo/redo, redimensionado dinámico.
+\end{itemize}
+
+La aplicación está orientada tanto a fines educativos como prácticos, con un enfoque modular y extensible.
+
+\section{Características Principales}
+
+\begin{itemize}
+    \item Interfaz gráfica moderna con menús interactivos.
+    \item Transformaciones:
+    \begin{itemize}
+        \item Escala de grises paralelizada
+        \item Imagen binaria con umbral configurable
+        \item Negativo
+    \end{itemize}
+    \item Filtros espaciales:
+    \begin{itemize}
+        \item Suavizado: Media, Mediana
+        \item Bordes: Sobel, Prewitt, Laplaciano
+    \end{itemize}
+    \item Morfología matemática:
+    \begin{itemize}
+        \item Erosión, Dilatación
+        \item Apertura, Cierre
+        \item Esqueletonización iterativa
+    \end{itemize}
+    \item Filtros simulados de frecuencia:
+    \begin{itemize}
+        \item Paso bajo, alto y de banda
+    \end{itemize}
+    \item Histograma visual con etiquetas y escala
+    \item Pilas de deshacer y rehacer para edición no destructiva
+\end{itemize}
+
+\section{Estructura del Proyecto}
+
+\subsection*{1. Menu.java}
+Clase principal de la interfaz. Gestiona eventos de menú, imagen actual, filtros, redimensionado y pilas de undo/redo.
+
+\subsection*{2. Operaciones.java}
+Contiene métodos estáticos que aplican los filtros. Agrupados en categorías: básicos, suavizado, bordes, morfología, frecuencia.
+
+\subsection*{3. HistogramaPanel.java}
+Dibuja el histograma de niveles de gris con etiquetas de intensidad y frecuencia, usando gráficos en 2D.
+
+\subsection*{4. Main.java}
+Inicializa la aplicación invocando la ventana principal desde el hilo de evento de Swing.
+
+\section{Nuevas Funcionalidades Añadidas}
+
+\subsection{Histograma Visual Mejorado}
+
+Se ha implementado un panel de histograma con:
+\begin{itemize}
+    \item Barras para cada nivel de gris (0 a 255).
+    \item Escala de frecuencia en eje Y.
+    \item Etiquetas visibles en ambos ejes.
+\end{itemize}
+
+\subsection{Paralelización en Filtros}
+
+Ejemplo aplicado en:
+\begin{itemize}
+    \item Escala de grises usando \texttt{IntStream.parallel()}.
+\end{itemize}
+Esto mejora el rendimiento en imágenes grandes dividiendo el procesamiento por hilos.
+
+\subsection{Filtros Morfológicos Completos}
+
+Incluye los siguientes filtros:
+
+\begin{itemize}
+    \item \textbf{Apertura:} Erosión seguida de dilatación. Elimina ruido fino.
+    \item \textbf{Cierre:} Dilatación seguida de erosión. Rellena huecos pequeños.
+    \item \textbf{Esqueletonización:} Reducción iterativa hasta el trazo central de figuras.
+\end{itemize}
+
+\section{Compilación y Ejecución}
+
+\subsection*{Opción A: Ejecutar JAR}
+\begin{enumerate}
+    \item Descargar \texttt{ImageProcessor2D.jar}
+    \item Desde consola, ejecutar:
+    \begin{verbatim}
+    java -jar ImageProcessor2D.jar
+    \end{verbatim}
+    \item O doble clic si está asociado con Java.
+\end{enumerate}
+
+\subsection*{Opción B: Compilar manualmente}
+\begin{verbatim}
+git clone https://github.com/JoseDavila24/ImageProcessor2D.git
+cd ImageProcessor2D
+javac Menu.java Operaciones.java HistogramaPanel.java Main.java
+java Main
+\end{verbatim}
+
+\section{Instrucciones de Uso}
+
+\begin{itemize}
+    \item \textbf{Abrir imagen:} Archivo $\rightarrow$ Abrir imagen
+    \item \textbf{Aplicar filtro:} Menús Imagen / Filtros
+    \item \textbf{Deshacer/Rehacer:} Edición $\rightarrow$ Deshacer/Rehacer
+    \item \textbf{Guardar imagen:} Archivo $\rightarrow$ Guardar / Guardar como
+    \item \textbf{Histograma:} Imagen $\rightarrow$ Histograma
+\end{itemize}
+
+\section{Requisitos}
+
+\begin{itemize}
+    \item Java 8 o posterior
+    \item Git (opcional)
+    \item IDE (opcional, recomendado: IntelliJ IDEA, Eclipse)
+\end{itemize}
+
+\section{Licencia}
+
+Este proyecto está bajo la Licencia MIT. Puedes reutilizar, modificar o distribuir el software con atribución.
+
+\section{Referencias}
+
+\begin{itemize}
+    \item GitHub - jercyae7/editor-de-imagenes: \url{https://github.com/jercyae7/editor-de-imagenes}
+    \item Torres, A. D. (1996). Procesamiento digital de imágenes. Perfiles Educativos, 72.
+    \item Redalyc: \url{https://www.redalyc.org/pdf/132/13207206.pdf}
+\end{itemize}
+
+\section{Conclusión}
+
+El uso de GitHub en este proyecto resultó fundamental, no solo para gestionar el código y la documentación, sino también para acostumbrarme a un entorno ampliamente utilizado en el desarrollo de software.
+
+Como estudiante de Ingeniería en Sistemas Computacionales, familiarizarme con herramientas de control de versiones es esencial, ya que facilita la colaboración, el seguimiento de cambios y la organización de proyectos.
+
+Esta experiencia me ha permitido mejorar mis habilidades en el manejo de repositorios, lo que será de gran utilidad en futuros desarrollos dentro del ámbito de TI.
+
+\end{document}

@@ -48,8 +48,7 @@ public class Operaciones {
                 int promedio = (r + g + b) / 3;
                 gris.setRGB(x, y, ColorUtils.toRGB(promedio, promedio, promedio));
             }
-        });
-
+        });   
         return gris;
     }
 
@@ -393,6 +392,92 @@ public class Operaciones {
         return morfologia(imagen, struct3x3, false);
     }
 
+    // Apertura = Erosión seguida de Dilatación
+    public static BufferedImage apertura3x3(BufferedImage imagen) {
+        return dilatacion3x3(erosion3x3(imagen));
+    }
+
+    // Cierre = Dilatación seguida de Erosión
+    public static BufferedImage cierre3x3(BufferedImage imagen) {
+        return erosion3x3(dilatacion3x3(imagen));
+    }
+
+    // Esqueletonización básica (iterativa con erosión y diferencia morfológica)
+    public static BufferedImage esqueletonizacion3x3(BufferedImage imagen) {
+        int ancho = imagen.getWidth();
+        int alto = imagen.getHeight();
+        BufferedImage skeleton = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
+
+        BufferedImage actual = copiaImagen(imagen);
+        BufferedImage resto;
+
+        while (!esImagenVacia(actual)) {
+            BufferedImage erosionada = erosion3x3(actual);
+            BufferedImage dilatada = dilatacion3x3(erosionada);
+            resto = restaBinaria(actual, dilatada);
+
+            orBinario(skeleton, resto);
+            actual = erosionada;
+        }
+
+        return skeleton;
+    }
+
+    // Resta binaria entre dos imágenes
+    private static BufferedImage restaBinaria(BufferedImage a, BufferedImage b) {
+        int ancho = a.getWidth();
+        int alto = a.getHeight();
+        BufferedImage resultado = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
+
+        for (int y = 0; y < alto; y++) {
+            for (int x = 0; x < ancho; x++) {
+                int pa = (a.getRGB(x, y) & 0xFF);
+                int pb = (b.getRGB(x, y) & 0xFF);
+                int r = (pa == 255 && pb == 0) ? 255 : 0;
+                resultado.setRGB(x, y, ColorUtils.toRGB(r, r, r));
+            }
+        }
+        return resultado;
+    }
+
+    // OR binario en la imagen destino
+    private static void orBinario(BufferedImage destino, BufferedImage fuente) {
+        int ancho = destino.getWidth();
+        int alto = destino.getHeight();
+
+        for (int y = 0; y < alto; y++) {
+            for (int x = 0; x < ancho; x++) {
+                int pd = destino.getRGB(x, y) & 0xFF;
+                int pf = fuente.getRGB(x, y) & 0xFF;
+                int r = (pd == 255 || pf == 255) ? 255 : 0;
+                destino.setRGB(x, y, ColorUtils.toRGB(r, r, r));
+            }
+        }
+    }
+
+    // Verifica si toda la imagen es negra (vacía)
+    private static boolean esImagenVacia(BufferedImage imagen) {
+        int ancho = imagen.getWidth();
+        int alto = imagen.getHeight();
+
+        for (int y = 0; y < alto; y++) {
+            for (int x = 0; x < ancho; x++) {
+                if ((imagen.getRGB(x, y) & 0xFF) != 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // Copia para uso interno
+    private static BufferedImage copiaImagen(BufferedImage src) {
+        BufferedImage copia = new BufferedImage(src.getWidth(), src.getHeight(), BufferedImage.TYPE_INT_RGB);
+        copia.getGraphics().drawImage(src, 0, 0, null);
+        return copia;
+    }
+
+
     // --------------------------------------------------------
     // Filtros "simulados" de frecuencia
     // --------------------------------------------------------
@@ -440,4 +525,23 @@ public class Operaciones {
         if (idx > max) return max;
         return idx;
     }
+
+    public static int[] calcularHistogramaGrises(BufferedImage imagen) {
+        int[] histograma = new int[256];
+        int ancho = imagen.getWidth();
+        int alto = imagen.getHeight();
+    
+        for (int y = 0; y < alto; y++) {
+            for (int x = 0; x < ancho; x++) {
+                int rgb = imagen.getRGB(x, y);
+                int r = ColorUtils.getR(rgb);
+                int g = ColorUtils.getG(rgb);
+                int b = ColorUtils.getB(rgb);
+                int gris = (r + g + b) / 3;
+                histograma[gris]++;
+            }
+        }
+        return histograma;
+    }
+    
 }

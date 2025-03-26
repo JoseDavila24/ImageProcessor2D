@@ -1,216 +1,222 @@
-\documentclass[11pt]{article}
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\geometry{margin=2.5cm}
 
-\usepackage[utf8]{inputenc}     % Soporte para acentos y caracteres latinos
-\usepackage[T1]{fontenc}
-\usepackage{amsmath,amssymb}    % Paquetes para entornos y símbolos matemáticos
-\usepackage{graphicx}           % (Opcional) Para incluir imágenes
-\usepackage{hyperref}           % (Opcional) Para hipervínculos en el PDF
+\title{Procesamiento Digital de Imágenes 2D en Java}
+\author{Autor: Jose Maria Romero Davila}
+\date{\today}
 
 \begin{document}
 
-\title{Operaciones Matemáticas del Código Operaciones.Java}
-\author{Jose Maria Romero Davila}
-\date{\today}
 \maketitle
+\tableofcontents
+\newpage
 
-\section{Escala de Grises (Promedio)}
+\section{Introducción}
 
-La escala de grises se calcula obteniendo el promedio de los tres canales de color (R, G y B). 
+Este proyecto implementa un software de procesamiento digital de imágenes 2D en Java con una interfaz gráfica basada en Swing. Se ofrecen transformaciones básicas, filtros espaciales, operaciones morfológicas, histogramas y herramientas de edición como deshacer/rehacer.
+
+\section{Fórmulas Matemáticas Utilizadas}
+
+Esta sección detalla las operaciones implementadas en términos matemáticos y explica con ejemplos cómo se aplican a los píxeles de una imagen.
+
+\subsection{Escala de Grises}
+
+Convierte un píxel RGB a una sola intensidad promedio:
+
 \[
-\text{Gris} = \frac{R + G + B}{3}.
+G(x, y) = \frac{R(x, y) + G(x, y) + B(x, y)}{3}
 \]
 
-\subsection{Mini Ejemplo}
-Supongamos un píxel con valores \(R = 100\), \(G = 150\), \(B = 200\). Entonces:
-\[
-\text{Gris} = \frac{100 + 150 + 200}{3} = 150.
-\]
-El píxel resultante tendrá un valor de gris de 150.
+\textbf{Ejemplo:}  
+Para un píxel (200, 150, 100), su gris será:  
+$G = (200 + 150 + 100)/3 = 150$  
+Resultado: (150, 150, 150)
 
-\section{Imagen Binaria}
+\subsection{Imagen Binaria}
 
-Para generar una imagen binaria, primero se calcula el promedio de los tres canales:
+Aplica umbralización para obtener una imagen en blanco y negro:
+
 \[
-\text{promedio} = \frac{R + G + B}{3}.
-\]
-Luego se compara con un umbral (\texttt{umbral}):
-\[
-\text{binario}(x, y) = 
+B(x, y) =
 \begin{cases}
-255 & \text{si } \text{promedio} > \texttt{umbral},\\
-0   & \text{en caso contrario}.
+255 & \text{si } G(x, y) > T \\
+0   & \text{si } G(x, y) \leq T
 \end{cases}
 \]
 
-\subsection{Mini Ejemplo}
-Sea un píxel con \(R = 50\), \(G = 100\), \(B = 150\) y un umbral de 100. Entonces:
-\[
-\text{promedio} = \frac{50 + 100 + 150}{3} = 100.
-\]
-Como \(\text{promedio} = 100 \leq \texttt{umbral}\), el píxel se establece en 0 (negro).
+\textbf{Ejemplo:}  
+Con umbral $T=128$:  
+\begin{itemize}
+  \item $G=150 \Rightarrow B=255$ (blanco)
+  \item $G=80 \Rightarrow B=0$ (negro)
+\end{itemize}
 
-\section{Negativo}
-Para generar el negativo de la imagen:
-\[
-R' = 255 - R, 
-\quad G' = 255 - G, 
-\quad B' = 255 - B.
-\]
+\subsection{Negativo de Imagen}
 
-\subsection{Mini Ejemplo}
-Para un píxel con \(R = 100\), \(G = 150\), \(B = 200\):
-\[
-R' = 255 - 100 = 155, \quad
-G' = 255 - 150 = 105, \quad
-B' = 255 - 200 = 55.
-\]
-El píxel resultante será \((155, 105, 55)\).
+Invierte los canales de color:
 
-\section{Ecualización de Histograma (en Grises)}
-
-\subsection{Conversión a Gris}
 \[
-\text{gris}(x, y) = \frac{R + G + B}{3}.
+I'(x, y) = 255 - I(x, y)
 \]
 
-\subsection{Cálculo de Histograma}
-\[
-\text{hist}[i] = \text{(número de píxeles con gris = } i), \quad i \in [0, 255].
-\]
-
-\subsection{Función de Distribución Acumulada (CDF)}
-\[
-\text{cdf}[0] = \text{hist}[0], \quad
-\text{cdf}[i] = \text{cdf}[i - 1] + \text{hist}[i], \quad i = 1, 2, \ldots, 255.
-\]
-\[
-\text{cdfMin} = \min \bigl\{\,\text{cdf}[i] > 0\bigr\}.
-\]
-
-\subsection{Look-Up Table (LUT)}
-Sea \(\text{totalPixeles} = \text{ancho} \times \text{alto}\). Para cada nivel \(i\):
-\[
-\text{lut}[i] = \left\lfloor \frac{(\text{cdf}[i] - \text{cdfMin}) \times 255}{\text{totalPixeles} - \text{cdfMin}} \right\rceil,
-\]
-donde se hace \(\text{clamp}\) a \([0, 255]\) si es necesario.
-
-\subsection{Aplicación de la LUT}
-\[
-\text{nuevoGris}(x, y) = \text{lut}\bigl[\text{gris}(x, y)\bigr].
-\]
-
-\subsection{Mini Ejemplo}
-Supongamos una imagen de \(2 \times 2\) con valores de gris: \([50, 100, 150, 200]\).
-
-1. **Histograma**:
-   \[
-   \text{hist}[50] = 1, \quad \text{hist}[100] = 1, \quad \text{hist}[150] = 1, \quad \text{hist}[200] = 1.
-   \]
-
-2. **CDF**:
-   \[
-   \text{cdf}[50] = 1, \quad \text{cdf}[100] = 2, \quad \text{cdf}[150] = 3, \quad \text{cdf}[200] = 4.
-   \]
-   \(\text{cdfMin} = 1\).
-
-3. **LUT**:
-   \[
-   \text{lut}[50] = \left\lfloor \frac{(1 - 1) \times 255}{4 - 1} \right\rceil = 0,
-   \]
-   \[
-   \text{lut}[100] = \left\lfloor \frac{(2 - 1) \times 255}{3} \right\rceil = 85,
-   \]
-   \[
-   \text{lut}[150] = \left\lfloor \frac{(3 - 1) \times 255}{3} \right\rceil = 170,
-   \]
-   \[
-   \text{lut}[200] = \left\lfloor \frac{(4 - 1) \times 255}{3} \right\rceil = 255.
-   \]
-
-4. **Aplicación de LUT**:
-   Los nuevos valores de gris son: \([0, 85, 170, 255]\).
-
-\section{Filtros de Suavizado}
+\textbf{Ejemplo:}  
+RGB = (100, 180, 200) $\Rightarrow$ (155, 75, 55)
 
 \subsection{Filtro de Media}
-Para una máscara de tamaño \(n \times n\):
+
+Reduce el ruido suavizando la imagen mediante un promedio:
+
 \[
-R_{\text{salida}} = \frac{ \sum \text{R}_{\text{vecinos}} }{n \times n}, \quad
-G_{\text{salida}} = \frac{ \sum \text{G}_{\text{vecinos}} }{n \times n}, \quad
-B_{\text{salida}} = \frac{ \sum \text{B}_{\text{vecinos}} }{n \times n}.
+M(x, y) = \frac{1}{n^2} \sum_{i=-k}^{k} \sum_{j=-k}^{k} I(x+i, y+j)
+\]
+donde $k = \frac{n-1}{2}$
+
+\textbf{Ejemplo:}  
+Con máscara $3\times3$, se suman 9 valores y se divide por 9.
+
+\subsection{Filtro de Mediana}
+
+Reemplaza el valor del píxel por la mediana de su vecindario:
+
+\[
+M(x, y) = \text{mediana} \left\{ I(x+i, y+j) \mid i,j \in [-k,k] \right\}
 \]
 
-\subsection{Mini Ejemplo}
-Sea una ventana \(3 \times 3\) con valores de \(R\):
-\[
-\begin{bmatrix}
-10 & 20 & 30\\
-40 & 50 & 60\\
-70 & 80 & 90
-\end{bmatrix}.
-\]
-El valor central se calcula como:
-\[
-R_{\text{salida}} = \frac{10 + 20 + 30 + 40 + 50 + 60 + 70 + 80 + 90}{9} = 50.
-\]
+\textbf{Ejemplo:}  
+Valores = \{20, 30, 40, 50, 60, 70, 80, 90, 100\}  
+$\Rightarrow$ mediana = 60
 
-\section{Filtros de Detección de Bordes}
+\subsection{Detección de Bordes}
 
-\subsection{Filtro Sobel}
+\subsubsection{Sobel}
+
 \[
-K_x = 
+G_x =
 \begin{bmatrix}
 -1 & 0 & 1\\
 -2 & 0 & 2\\
 -1 & 0 & 1
-\end{bmatrix},
-\quad
-K_y =
+\end{bmatrix}, \quad
+G_y =
 \begin{bmatrix}
 -1 & -2 & -1\\
-\;\,0 & \;\,0 & \;\,0\\
-\;\,1 & \;\,2 & \;\,1
-\end{bmatrix}.
-\]
-La magnitud resultante se obtiene con:
-\[
-R' = \sqrt{( \text{sumXr} )^2 + ( \text{sumYr} )^2}.
+0 & 0 & 0\\
+1 & 2 & 1
+\end{bmatrix}
 \]
 
-\subsection{Mini Ejemplo}
-Para una ventana \(3 \times 3\) con valores de \(R\):
 \[
+G(x,y) = \sqrt{(I * G_x)^2 + (I * G_y)^2}
+\]
+
+\textbf{Ejemplo:}  
+Detecta bordes verticales y horizontales simultáneamente.
+
+\subsubsection{Prewitt}
+
+\[
+P_x =
 \begin{bmatrix}
-10 & 20 & 30\\
-40 & 50 & 60\\
-70 & 80 & 90
-\end{bmatrix},
-\]
-las sumas son:
-\[
-\text{sumXr} = (-1 \times 10) + (1 \times 30) + (-2 \times 40) + (2 \times 60) + (-1 \times 70) + (1 \times 90) = 80,
-\]
-\[
-\text{sumYr} = (-1 \times 10) + (-2 \times 20) + (-1 \times 30) + (1 \times 70) + (2 \times 80) + (1 \times 90) = 160.
-\]
-La magnitud es:
-\[
-R' = \sqrt{80^2 + 160^2} = \sqrt{6400 + 25600} = \sqrt{32000} \approx 178.89.
+-1 & 0 & 1\\
+-1 & 0 & 1\\
+-1 & 0 & 1
+\end{bmatrix}, \quad
+P_y =
+\begin{bmatrix}
+-1 & -1 & -1\\
+0 & 0 & 0\\
+1 & 1 & 1
+\end{bmatrix}
 \]
 
-\section{Clampeo (\textit{Clamp})}
+\textbf{Ejemplo:}  
+Similar a Sobel pero más simple, con menos sensibilidad.
 
-Los valores finales de cada canal se ajustan al rango \([0, 255]\):
+\subsubsection{Laplaciano}
+
 \[
-\text{val} = 
-\begin{cases}
-0 & \text{si } \text{val} < 0,\\
-255 & \text{si } \text{val} > 255,\\
-\text{val} & \text{en caso contrario}.
-\end{cases}
+L =
+\begin{bmatrix}
+0 & -1 & 0\\
+-1 & 4 & -1\\
+0 & -1 & 0
+\end{bmatrix}
 \]
 
-\subsection{Mini Ejemplo}
-Si \(\text{val} = 300\), entonces \(\text{val} = 255\). Si \(\text{val} = -10\), entonces \(\text{val} = 0\).
+\[
+G(x,y) = I * L
+\]
+
+\textbf{Ejemplo:}  
+Detecta contornos sin orientación específica.
+
+\subsection{Morfología Matemática}
+
+\subsubsection{Erosión}
+
+\[
+I \ominus B = \min \left\{ I(x+i, y+j) \mid (i,j) \in B \right\}
+\]
+
+\textbf{Ejemplo:}  
+Un punto blanco aislado se elimina.
+
+\subsubsection{Dilatación}
+
+\[
+I \oplus B = \max \left\{ I(x+i, y+j) \mid (i,j) \in B \right\}
+\]
+
+\textbf{Ejemplo:}  
+Aumenta áreas blancas, rellenando huecos.
+
+\subsubsection{Apertura}
+
+\[
+I \circ B = (I \ominus B) \oplus B
+\]
+
+\textbf{Ejemplo:}  
+Elimina ruido pequeño.
+
+\subsubsection{Cierre}
+
+\[
+I \bullet B = (I \oplus B) \ominus B
+\]
+
+\textbf{Ejemplo:}  
+Rellena pequeños agujeros.
+
+\subsubsection{Esqueletonización}
+
+\[
+S = \bigcup_n \left[ I_n - ((I_n \ominus B) \oplus B) \right]
+\]
+
+\textbf{Ejemplo:}  
+Reduce formas binarizadas al "hueso" o trazo principal.
+
+\subsection{Histograma de Intensidad}
+
+Cuenta cuántos píxeles tienen un valor de gris específico:
+
+\[
+H(g) = \#\left\{(x, y) \mid G(x, y) = g \right\}, \quad g \in [0, 255]
+\]
+
+\textbf{Ejemplo:}  
+$H(128) = 250$ significa que hay 250 píxeles con intensidad 128.
+
+\section{Conclusión}
+
+Este documento ha descrito los fundamentos matemáticos de cada operación de procesamiento implementada en el software. La aplicación ofrece herramientas completas para experimentar con filtros clásicos y morfología, visualizando resultados de forma interactiva.
 
 \end{document}
