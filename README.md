@@ -1,8 +1,3 @@
-¡Entendido! Vamos a transformar esa documentación en un **documento formal de Word (.docx)**.  
-A continuación te doy el **contenido estructurado como se vería en un documento Word**, con **títulos**, **secciones**, **viñetas**, y listo para copiar/pegar en Microsoft Word o Google Docs directamente. También lo puedes guardar como `.docx`.
-
----
-
 # **Procesamiento de Imágenes 2D en Java**
 
 ---
@@ -176,7 +171,3 @@ Este proyecto está bajo licencia MIT. Consulta el archivo `LICENSE` en el repos
 El uso de GitHub en este proyecto resultó fundamental, no solo para gestionar el código y la documentación, sino también para acostumbrarme a un entorno ampliamente utilizado en el desarrollo de software.
 
 Como estudiante de Ingeniería en Sistemas Computacionales, familiarizarme con herramientas de control de versiones es esencial, ya que facilita la colaboración, el seguimiento de cambios y la organización de proyectos. Esta experiencia me ha permitido mejorar mis habilidades en el manejo de repositorios, lo que será de gran utilidad en futuros desarrollos dentro del ámbito de TI.
-
----
-
-¿Quieres que te lo convierta directamente a `.docx` descargable o te doy instrucciones para hacerlo tú desde este texto? 📝💡
