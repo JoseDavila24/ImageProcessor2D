@@ -8,9 +8,6 @@ El objetivo principal es implementar diversas técnicas de procesamiento digital
 
 El desarrollo del software se llevó a cabo en GitHub, donde se encuentra disponible el código fuente junto con documentación detallada sobre su funcionamiento. Además, en el repositorio se incluye un archivo PDF que explica las operaciones necesarias para implementar los distintos filtros y transformaciones aplicadas a las imágenes.
 
-**Repositorio en GitHub:**  
-[https://github.com/JoseDavila24/ImageProcessor2D.git](https://github.com/JoseDavila24/ImageProcessor2D.git)
-
 
 ## **Características Principales**
 
