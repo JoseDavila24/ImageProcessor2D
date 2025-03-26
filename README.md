@@ -1,7 +1,5 @@
 # **Procesamiento de Imágenes 2D en Java**
 
----
-
 ## **Introducción**
 
 El procesamiento de imágenes es una disciplina fundamental en el campo de la visión por computadora y la gráfica computacional. En esta actividad, se ha desarrollado un software en Java con una interfaz gráfica de usuario (GUI) para la manipulación y análisis de imágenes en 2D.
@@ -13,7 +11,6 @@ El desarrollo del software se llevó a cabo en GitHub, donde se encuentra dispon
 **Repositorio en GitHub:**  
 [https://github.com/JoseDavila24/ImageProcessor2D.git](https://github.com/JoseDavila24/ImageProcessor2D.git)
 
----
 
 ## **Características Principales**
 
