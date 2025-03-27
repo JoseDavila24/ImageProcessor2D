@@ -122,6 +122,30 @@ A continuación se muestran algunas capturas del programa en funcionamiento. Si 
 
 ---
 
+### 🎯 **Prepara la imagen antes del filtro**
+
+| Filtro                  | Preprocesamiento recomendado                        | Caso de uso típico                                         | Qué observar 🔎                                         |
+|------------------------|-----------------------------------------------------|------------------------------------------------------------|----------------------------------------------------------|
+| **Escala de grises**   | Imagen a color con muchos tonos                     | Convertir imagen a una sola dimensión de intensidad        | Se eliminan colores, solo queda la información de luz    |
+| **Binarización**       | Escala de grises                                   | Segmentar zonas claras/oscura (texto, formas, OCR)        | Todo se vuelve blanco o negro según umbral               |
+| **Negativo**           | Cualquier imagen                                    | Efecto visual inverso, análisis médico o artístico         | Invierten luces y sombras; zonas claras ↔️ oscuras        |
+| **Histograma**         | Escala de grises para más claridad                  | Ver distribución de intensidad; útil en contraste y umbral | Picos y valles indican concentración de valores grises   |
+| **Filtro de media**    | Imagen con ruido o texturas                         | Suavizar imagen, difuminar zonas, reducción de ruido leve | Imagen se ve más borrosa, bordes pierden nitidez         |
+| **Filtro de mediana**  | Imagen con "sal y pimienta", píxeles aislados      | Eliminar ruido impulsivo sin dañar bordes                 | Bordes preservados, ruido blanco/negro desaparece         |
+| **Filtro Sobel**       | Escala de grises o binaria                          | Detectar bordes en direcciones diagonales                 | Se resaltan contornos fuertes                            |
+| **Filtro Prewitt**     | Escala de grises o binaria                          | Alternativa a Sobel (más suave)                           | Bordes con algo menos de contraste                       |
+| **Filtro Laplaciano**  | Escala de grises                                   | Detectar todos los bordes sin importar dirección          | Muestra contornos internos con alta sensibilidad         |
+| **Erosión**            | Imagen binaria                                     | Eliminar ruido blanco, adelgazar objetos                  | Zonas blancas se achican; bordes retroceden              |
+| **Dilatación**         | Imagen binaria                                     | Rellenar huecos, unir componentes                         | Zonas blancas se expanden                                |
+| **Apertura**           | Imagen binaria con puntos blancos pequeños         | Suaviza contornos y elimina pequeños puntos aislados      | Formas más limpias, sin ruido blanco                     |
+| **Cierre**             | Imagen binaria con huecos pequeños                 | Cierra agujeros dentro de objetos blancos                 | Huecos desaparecen, formas se rellenan                  |
+| **Esqueletonización**  | Escala de grises → Binarización                    | Obtener forma delgada de objetos (análisis estructural)   | Figuras reducidas a su “esqueleto” o centro estructural  |
+| **Filtro paso bajo**   | Imagen con texturas o ruido uniforme               | Suavizar o eliminar detalle fino                          | Imagen borrosa, menos detalle pero más homogénea         |
+| **Filtro paso alto**   | Imagen con bajo contraste o detalles suaves        | Resaltar bordes o detalles finos                          | Realce de texturas, bordes más notorios                 |
+| **Filtro paso banda**  | Imagen con detalles medios; aplicar post paso bajo | Ver estructura intermedia (ni ruido ni fondo plano)       | Texturas intermedias resaltadas; ni muy suaves ni duros |
+
+---
+
 ## Documentación adicional 📄
 
 Para mayor detalle sobre la **implementación** y la **teoría** de las operaciones de imagen, revisa el documento **[DocOperaciones.pdf](https://github.com/JoseDavila24/ImageProcessor2D/blob/d9a11d2c0cf3bf4678475188a5536f656083ef44/DocOperaciones.pdf)** incluido en el repositorio. Allí encontrarás descripciones más técnicas de cada filtro y su lógica interna (El codigo fuente de la documentacion esta en [Operaciones.tex](https://github.com/JoseDavila24/ImageProcessor2D/blob/d9a11d2c0cf3bf4678475188a5536f656083ef44/Operaciones.tex) ).
