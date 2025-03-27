@@ -509,10 +509,36 @@ public class Operaciones {
     }
 
     public static BufferedImage filtroPasoBanda(BufferedImage imagen) {
-        // Se deja tal cual en tu código original. Si quisieras
-        // algo real, podrías combinar un paso bajo y luego un paso alto.
-        return imagen;
+        // Aplicamos suavizado (paso bajo) primero
+        BufferedImage low = filtroMedia(imagen, 5);
+
+        // Luego, aplicamos paso alto al resultado suavizado
+        int ancho = imagen.getWidth();
+        int alto = imagen.getHeight();
+        BufferedImage resultado = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
+
+        for (int y = 0; y < alto; y++) {
+            for (int x = 0; x < ancho; x++) {
+                int origRGB = imagen.getRGB(x, y);
+                int lowRGB = low.getRGB(x, y);
+
+                // Diferencia para obtener contenido de banda media
+                int r = ColorUtils.getR(origRGB) - ColorUtils.getR(lowRGB);
+                int g = ColorUtils.getG(origRGB) - ColorUtils.getG(lowRGB);
+                int b = ColorUtils.getB(origRGB) - ColorUtils.getB(lowRGB);
+
+                // Centrado para evitar negativos
+                r += 128;
+                g += 128;
+                b += 128;
+
+                resultado.setRGB(x, y, ColorUtils.toRGB(r, g, b));
+            }
+        }
+
+        return resultado;
     }
+
 
     // --------------------------------------------------------
     // Utilidades privadas
