@@ -2,45 +2,129 @@
 
 Este proyecto consiste en una aplicación de escritorio en Java para realizar operaciones de procesamiento de imágenes en 2D. Incluye una interfaz gráfica (Swing) que permite **abrir**, **guardar** y **cerrar** imágenes, así como aplicar **filtros** y **transformaciones** como binarización, escala de grises, suavizado, realce, morfología, etc.
 
-## Características principales ⚡
+## 💡 **Descripción General**
+Este es un sistema de procesamiento de imágenes en 2D con interfaz gráfica construida con **Swing**, que permite:
+- Abrir, mostrar, guardar imágenes
+- Convertir imágenes a escala de grises, binarizarlas, aplicar negativos
+- Visualizar histogramas de intensidad
+- Aplicar filtros (media, mediana, Sobel, Prewitt, etc.)
+- Aplicar transformaciones morfológicas (erosión, dilatación, apertura, cierre, esqueletonización)
 
-- **Interfaz gráfica** construida con Java Swing (clase `Menu`).
-- **Operaciones de edición**: deshacer (undo) y rehacer (redo).
-- **Transformaciones de imagen**:  
-  - Conversión a escala de grises.  
-  - Conversión a binaria (blanco/negro) con umbral configurable.  
-  - Negativo.  
-  - Histograma (ecualización en escala de grises).  
+---
+
+## 🧱 Estructura de Clases
+
+| Clase             | Rol                                                                 |
+|------------------|----------------------------------------------------------------------|
+| `Main`           | Punto de entrada. Carga la interfaz `Menu`                           |
+| `Menu`           | Ventana principal con menú, imagen y lógica de interacción           |
+| `Operaciones`    | Procesamiento de imágenes (filtros, transformaciones, morfología)    |
+| `HistogramaPanel`| Panel que dibuja gráficamente un histograma de intensidades          |
+
+---
+
+## 🎨 Interfaz Gráfica (`Menu`)
+Se trata de una **ventana Swing `JFrame`** con un menú rico en funcionalidades:
+
+**Menús disponibles:**
+- **Archivo**: Abrir, guardar, guardar como, cerrar
+- **Edición**: Deshacer, rehacer
+- **Imagen**: Escala de grises, binarización, negativo, histograma
 - **Filtros**:
-  - Suavizado (filtro de media y mediana).
-  - Detección de bordes (Sobel, Prewitt, Laplaciano).
-  - Filtros morfológicos (erosión, dilatación, etc.).
-  - Filtros simulados de frecuencia (paso bajo, paso alto, paso banda).
-- **Pilas de deshacer y rehacer** para gestionar los cambios realizados.
+  - Suavizado: Media, Mediana
+  - Realce: Sobel, Prewitt, Laplaciano
+  - Morfológicos: Erosión, Dilatación, Apertura, Cierre, Esqueletonización
+  - Frecuencia: Filtro paso bajo, alto y banda
 
-## Estructura del proyecto 📂
+💡 El uso de `JMenuBar`, `JMenu`, `JMenuItem`, `ActionListener` está bien organizado.
 
-El proyecto se compone principalmente de dos clases:
+Incluye soporte para:
+- Redimensionar la imagen al tamaño del panel
+- Pila de deshacer/rehacer con `Stack<BufferedImage>`
 
-1. **Menu**  
-   Se encarga de la interfaz gráfica con menús, acciones y la gestión de:  
-   - Abrir, guardar y cerrar imágenes.  
-   - Menús para aplicar distintos filtros.  
-   - Pila de acciones (undo, redo).  
-   - Redimensionado automático de la imagen dentro de un `JScrollPane`.
+---
 
-2. **Operaciones**  
-   Contiene métodos estáticos que realizan las transformaciones y filtros sobre un objeto `BufferedImage`. Por ejemplo:
-   - Conversión a escala de grises (`escalaDeGrises`).
-   - Negativo (`negativo`).
-   - Filtro de media y mediana (`filtroMedia`, `filtroMediana`).
-   - Detección de bordes (`filtroSobel`, `filtroPrewitt`, `filtroLaplaciano`).
-   - Morfología matemática binaria (`erosion3x3`, `dilatacion3x3`).
-   - Filtros “simulados” de frecuencia (`filtroPasoBajo`, `filtroPasoAlto`, `filtroPasoBanda`).
+## 🧪 Procesamiento de Imagen (`Operaciones`)
+Contiene todos los algoritmos implementados:
+
+### 🔧 Operaciones Básicas
+- Escala de grises
+- Negativo
+- Imagen binaria (según umbral)
+
+### 📊 Histograma
+- Cálculo de histograma
+- Visualización con `HistogramaPanel`
+
+### ✨ Filtros de suavizado
+- Media: con máscara de tamaño arbitrario
+- Mediana: igual, usando ordenamiento por canal
+
+### 🪓 Filtros de bordes
+- **Sobel** y **Prewitt**: detección de bordes por convolución
+- **Laplaciano**: detección de bordes mediante segunda derivada
+
+### ⚙️ Morfología Binaria
+- Erosión y dilatación 3x3
+- Apertura = erosión + dilatación
+- Cierre = dilatación + erosión
+- Esqueletonización: por diferencias morfológicas iterativas
+
+### 🌀 Filtros de frecuencia
+- Paso bajo: usando filtro de media
+- Paso alto: original - difuminado
+- Paso banda: simulado, retornando imagen sin procesar (mejorable)
+
+---
+
+## 📊 Histograma (`HistogramaPanel`)
+Clase que **extiende `JPanel`** y sobrescribe `paintComponent` para dibujar:
+- Ejes X/Y
+- Barras verdes representando la frecuencia
+- Etiquetas en los ejes
+- Títulos
+
+Diseño cuidado y escalable. Muy visual.
+
+---
+
+## ⚙️ Detalles técnicos destacados
+
+✅ Buen uso de programación funcional (`Function`, `@FunctionalInterface`)
+
+✅ Uso de `BufferedImage` y manipulación a nivel de pixel
+
+✅ Separación clara entre UI (`Menu`) y lógica (`Operaciones`)
+
+✅ Manejo de errores con `JOptionPane`
+
+✅ `Undo/Redo` correctamente implementado con copia profunda (`copyImage`)
+
+✅ `ParallelStream` usado en algunos métodos como escala de grises para eficiencia
+
+---
+
+## Capturas de pantalla 📸
+
+A continuación se muestran algunas capturas del programa en funcionamiento. Si prefieres verlas en GitHub, haz clic en cada imagen:
+
+#### 1. Ventana principal
+![Ventana principal](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Ventana%20Principal.png?raw=true)
+
+#### 2. Menú de opciones
+![Menú de opciones](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Menu_de_opciones.png?raw=true)
+
+#### 3. Abrir imagen
+![Abrir imagen](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Abrir_imagen.png?raw=true)
+
+#### 4. Aplicar un filtro
+![Aplicar un filtro](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Aplicar_un_filtro.png?raw=true)
+
+---
 
 ## Documentación adicional 📄
 
-Para mayor detalle sobre la **implementación** y la **teoría** de las operaciones de imagen, revisa el documento **formulas.pdf** incluido en el repositorio. Allí encontrarás descripciones más técnicas de cada filtro y su lógica interna.
+Para mayor detalle sobre la **implementación** y la **teoría** de las operaciones de imagen, revisa el documento **[DocOperaciones.pdf](https://github.com/JoseDavila24/ImageProcessor2D/blob/d9a11d2c0cf3bf4678475188a5536f656083ef44/DocOperaciones.pdf)** incluido en el repositorio. Allí encontrarás descripciones más técnicas de cada filtro y su lógica interna (El codigo fuente de la documentacion esta en [Operaciones.tex](https://github.com/JoseDavila24/ImageProcessor2D/blob/d9a11d2c0cf3bf4678475188a5536f656083ef44/Operaciones.tex) ).
 
 ## Requisitos previos ✅
 
@@ -86,41 +170,6 @@ Si prefieres compilar el proyecto en lugar de usar el `.jar`:
    ```bash
    java Main
    ```
-
-## Uso de la aplicación 🚀
-
-1. **Abrir imagen**: Ve al menú `Archivo > Abrir imagen`. Aparecerá un diálogo para seleccionar el archivo de imagen.
-2. **Aplicar filtros o transformaciones**: 
-   - Encuéntralos en los menús `Imagen` o `Filtros`.
-   - Algunos filtros (p. ej., binarización) solicitarán un valor numérico (tamaño de máscara, umbral, etc.).
-3. **Deshacer/Rehacer**:  
-   - `Edición > Deshacer` para revertir el último cambio.
-   - `Edición > Rehacer` para restaurar un cambio deshecho.
-4. **Guardar la imagen**:
-   - `Archivo > Guardar imagen` para guardar en el archivo actual.
-   - `Archivo > Guardar como...` para elegir un nombre/ruta diferente.
-5. **Cerrar** la imagen (sin salir de la aplicación) con `Archivo > Cerrar`.
-
-## Capturas de pantalla 📸
-
-A continuación se muestran algunas capturas del programa en funcionamiento. Si prefieres verlas en GitHub, haz clic en cada imagen:
-
-#### 1. Ventana principal
-![Ventana principal](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Ventana%20Principal.png?raw=true)
-
-#### 2. Menú de opciones
-![Menú de opciones](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Menu_de_opciones.png?raw=true)
-
-#### 3. Abrir imagen
-![Abrir imagen](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Abrir_imagen.png?raw=true)
-
-#### 4. Aplicar un filtro
-![Aplicar un filtro](https://github.com/JoseDavila24/ImageProcessor2D/blob/6edac930c2067a2ad0d4568c4b0adb4e0fe5f4cd/img/Aplicar_un_filtro.png?raw=true)
-
-## Personalización 🔧
-
-- En la clase `Menu`, puedes añadir o eliminar ítems de menú para adaptar la interfaz a tus necesidades.
-- En la clase `Operaciones`, puedes añadir nuevos métodos que implementen distintos tipos de filtros o transformaciones y luego crear los `JMenuItem` correspondientes en `Menu` para invocarlos.
 
 ## Contribuciones 🙌
 
