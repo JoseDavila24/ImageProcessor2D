@@ -36,8 +36,6 @@ Se trata de una **ventana Swing `JFrame`** con un menú rico en funcionalidades:
   - Morfológicos: Erosión, Dilatación, Apertura, Cierre, Esqueletonización
   - Frecuencia: Filtro paso bajo, alto y banda
 
-💡 El uso de `JMenuBar`, `JMenu`, `JMenuItem`, `ActionListener` está bien organizado.
-
 Incluye soporte para:
 - Redimensionar la imagen al tamaño del panel
 - Pila de deshacer/rehacer con `Stack<BufferedImage>`
