@@ -197,13 +197,7 @@ Si prefieres compilar el proyecto en lugar de usar el `.jar`:
 
 ## Contribuciones 🙌
 
-¡Las contribuciones son bienvenidas! Para aportar al proyecto:
-
-1. Haz un **fork** de este repositorio.
-2. Crea una rama (`git checkout -b mi-nueva-funcionalidad`).
-3. Realiza tus modificaciones y confirma los cambios (`git commit -m "Agrego nuevo filtro de XYZ"`).
-4. Envía tus cambios a tu repositorio remoto (`git push origin mi-nueva-funcionalidad`).
-5. Abre un **Pull Request** en este repositorio con tus cambios.
+Revisa el documento llamado [CONTRIBUTING.md](https://github.com/JoseDavila24/ImageProcessor2D/blob/bc21b65cbdc9db96a15e4208ba32c59b0a06346e/CONTRIBUTING.md) dentro de este repositorio.
 
 ## Licencia 📜
 
