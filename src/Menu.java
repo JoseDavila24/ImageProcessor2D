@@ -186,7 +186,7 @@ public class Menu extends JFrame {
         // Filtros morfológicos
         erosionItem.addActionListener(e -> aplicarErosion());
         dilatacionItem.addActionListener(e -> aplicarDilatacion());
-        // Apertura, cierre y esqueletonización aún sin implementar 
+        // Apertura, cierre y esqueletonización aún sin implementar
         // (no se incluyeron en el código original), pero aquí podrías
         // añadirlos de forma similar.
 
@@ -218,8 +218,8 @@ public class Menu extends JFrame {
                 }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this,
-                    "Error al abrir la imagen: " + ex.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                        "Error al abrir la imagen: " + ex.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -228,7 +228,8 @@ public class Menu extends JFrame {
      * Guarda la imagen en el fichero original (si existe).
      */
     private void guardarImagen() {
-        if (!checkImageLoaded()) return;  // Sale si no hay imagen
+        if (!checkImageLoaded())
+            return; // Sale si no hay imagen
         try {
             if (currentFile == null) {
                 // Si no hay archivo asociado, pedir "Guardar como"
@@ -239,8 +240,8 @@ public class Menu extends JFrame {
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this,
-                "Error al guardar la imagen: " + ex.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
+                    "Error al guardar la imagen: " + ex.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -248,7 +249,8 @@ public class Menu extends JFrame {
      * Abre un diálogo para guardar la imagen con otro nombre/ruta.
      */
     private void guardarComoImagen() {
-        if (!checkImageLoaded()) return;
+        if (!checkImageLoaded())
+            return;
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showSaveDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
@@ -260,8 +262,8 @@ public class Menu extends JFrame {
                 JOptionPane.showMessageDialog(this, "Imagen guardada como: " + file.getName());
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this,
-                    "Error al guardar la imagen: " + ex.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                        "Error al guardar la imagen: " + ex.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -290,8 +292,8 @@ public class Menu extends JFrame {
             escalarImagen();
         } else {
             JOptionPane.showMessageDialog(this,
-                "No hay acciones para deshacer.",
-                "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    "No hay acciones para deshacer.",
+                    "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -305,8 +307,8 @@ public class Menu extends JFrame {
             escalarImagen();
         } else {
             JOptionPane.showMessageDialog(this,
-                "No hay acciones para rehacer.",
-                "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    "No hay acciones para rehacer.",
+                    "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -315,7 +317,8 @@ public class Menu extends JFrame {
      * Maneja automáticamente la pila de deshacer y reescala al final.
      */
     private void aplicarOperacion(Function<BufferedImage, BufferedImage> operacion) {
-        if (!checkImageLoaded()) return;
+        if (!checkImageLoaded())
+            return;
         undoStack.push(copyImage(currentImage));
         currentImage = operacion.apply(currentImage);
         escalarImagen();
@@ -324,13 +327,16 @@ public class Menu extends JFrame {
     }
 
     /**
-     * Aplica un filtro/operación que requiere un parámetro entero (por ejemplo umbral, tamaño de máscara, etc.).
+     * Aplica un filtro/operación que requiere un parámetro entero (por ejemplo
+     * umbral, tamaño de máscara, etc.).
      */
     private void aplicarOperacionConEntero(String mensaje, String titulo, int valorPorDefecto,
-                                           FiltroConEntero filtro) {
-        if (!checkImageLoaded()) return;
+            FiltroConEntero filtro) {
+        if (!checkImageLoaded())
+            return;
         Integer valor = solicitarEntero(mensaje, titulo, valorPorDefecto);
-        if (valor == null) return; // Usuario canceló o valor inválido
+        if (valor == null)
+            return; // Usuario canceló o valor inválido
         undoStack.push(copyImage(currentImage));
         currentImage = filtro.aplicar(currentImage, valor);
         escalarImagen();
@@ -347,11 +353,10 @@ public class Menu extends JFrame {
 
     private void aplicarImagenBinaria() {
         aplicarOperacionConEntero(
-            "Introduce el umbral (0-255):",
-            "Umbral de binarización",
-            128,
-            (img, umbral) -> Operaciones.imagenBinaria(img, umbral)
-        );
+                "Introduce el umbral (0-255):",
+                "Umbral de binarización",
+                128,
+                (img, umbral) -> Operaciones.imagenBinaria(img, umbral));
     }
 
     private void aplicarNegativo() {
@@ -359,9 +364,10 @@ public class Menu extends JFrame {
     }
 
     private void mostrarHistograma() {
-        if (!checkImageLoaded()) return;
+        if (!checkImageLoaded())
+            return;
         int[] histograma = Operaciones.calcularHistogramaGrises(currentImage);
-    
+
         JFrame histogramaFrame = new JFrame("Histograma de Intensidad (Grises)");
         histogramaFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         histogramaFrame.add(new HistogramaPanel(histograma));
@@ -369,23 +375,21 @@ public class Menu extends JFrame {
         histogramaFrame.setLocationRelativeTo(this);
         histogramaFrame.setVisible(true);
     }
-    
+
     private void aplicarFiltroMedia() {
         aplicarOperacionConEntero(
-            "Introduce el tamaño de la máscara (3, 5, 7, ...):",
-            "Filtro de media",
-            3,
-            (img, tam) -> Operaciones.filtroMedia(img, tam)
-        );
+                "Introduce el tamaño de la máscara (3, 5, 7, ...):",
+                "Filtro de media",
+                3,
+                (img, tam) -> Operaciones.filtroMedia(img, tam));
     }
 
     private void aplicarFiltroMediana() {
         aplicarOperacionConEntero(
-            "Introduce el tamaño de la máscara (3, 5, 7, ...):",
-            "Filtro de mediana",
-            3,
-            (img, tam) -> Operaciones.filtroMediana(img, tam)
-        );
+                "Introduce el tamaño de la máscara (3, 5, 7, ...):",
+                "Filtro de mediana",
+                3,
+                (img, tam) -> Operaciones.filtroMediana(img, tam));
     }
 
     private void aplicarFiltroSobel() {
@@ -419,43 +423,46 @@ public class Menu extends JFrame {
     private void aplicarFiltroPasoBanda() {
         aplicarOperacion(Operaciones::filtroPasoBanda);
     }
+
     private void aplicarApertura() {
         aplicarOperacion(Operaciones::apertura3x3);
     }
-    
+
     private void aplicarCierre() {
         aplicarOperacion(Operaciones::cierre3x3);
     }
-    
+
     private void aplicarEsqueletonizacion() {
         aplicarOperacion(Operaciones::esqueletonizacion3x3);
     }
-    
 
     // ---------------------------------------------
     // Métodos de utilidad
     // ---------------------------------------------
 
     /**
-     * Verifica si hay una imagen cargada. Si no la hay, muestra un mensaje y retorna false.
+     * Verifica si hay una imagen cargada. Si no la hay, muestra un mensaje y
+     * retorna false.
      */
     private boolean checkImageLoaded() {
         if (currentImage == null) {
             JOptionPane.showMessageDialog(this,
-                "No hay ninguna imagen abierta.",
-                "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    "No hay ninguna imagen abierta.",
+                    "Advertencia", JOptionPane.WARNING_MESSAGE);
             return false;
         }
         return true;
     }
 
     /**
-     * Solicita un entero al usuario mediante un JOptionPane. Controla cancelación y errores de parseo.
+     * Solicita un entero al usuario mediante un JOptionPane. Controla cancelación y
+     * errores de parseo.
      *
-     * @param mensaje           Texto a mostrar en el diálogo.
-     * @param titulo            Título de la ventana.
-     * @param valorPorDefecto   Valor inicial (por ejemplo 3).
-     * @return Integer válido o null si el usuario canceló o puso un valor no válido.
+     * @param mensaje         Texto a mostrar en el diálogo.
+     * @param titulo          Título de la ventana.
+     * @param valorPorDefecto Valor inicial (por ejemplo 3).
+     * @return Integer válido o null si el usuario canceló o puso un valor no
+     *         válido.
      */
     private Integer solicitarEntero(String mensaje, String titulo, int valorPorDefecto) {
         String valorStr = JOptionPane.showInputDialog(this, mensaje, titulo, JOptionPane.QUESTION_MESSAGE);
@@ -467,8 +474,8 @@ public class Menu extends JFrame {
             return Integer.parseInt(valorStr);
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
-                "Valor inválido: " + valorStr,
-                "Error", JOptionPane.ERROR_MESSAGE);
+                    "Valor inválido: " + valorStr,
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }
@@ -483,7 +490,8 @@ public class Menu extends JFrame {
     }
 
     /**
-     * Reescala la imagen para ajustarla al tamaño disponible del scrollPane, manteniendo proporción.
+     * Reescala la imagen para ajustarla al tamaño disponible del scrollPane,
+     * manteniendo proporción.
      */
     private void escalarImagen() {
         if (currentImage == null) {
@@ -510,7 +518,8 @@ public class Menu extends JFrame {
     }
 
     /**
-     * Interfaz funcional para filtros con parámetro entero (umbral, tamaño de máscara, etc.).
+     * Interfaz funcional para filtros con parámetro entero (umbral, tamaño de
+     * máscara, etc.).
      */
     @FunctionalInterface
     private interface FiltroConEntero {
@@ -525,5 +534,4 @@ public class Menu extends JFrame {
         });
     }
 
-    
 }

@@ -13,7 +13,8 @@ public class HistogramaPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (histograma == null) return;
+        if (histograma == null)
+            return;
 
         Graphics2D g2 = (Graphics2D) g;
         int width = getWidth();
@@ -25,7 +26,8 @@ public class HistogramaPanel extends JPanel {
 
         int max = 0;
         for (int v : histograma) {
-            if (v > max) max = v;
+            if (v > max)
+                max = v;
         }
 
         // Dibujar ejes

@@ -9,9 +9,17 @@ public class Operaciones {
      * evitando la repetición de código.
      */
     private static class ColorUtils {
-        static int getR(int rgb) { return (rgb >> 16) & 0xFF; }
-        static int getG(int rgb) { return (rgb >> 8) & 0xFF; }
-        static int getB(int rgb) { return rgb & 0xFF; }
+        static int getR(int rgb) {
+            return (rgb >> 16) & 0xFF;
+        }
+
+        static int getG(int rgb) {
+            return (rgb >> 8) & 0xFF;
+        }
+
+        static int getB(int rgb) {
+            return rgb & 0xFF;
+        }
 
         static int toRGB(int r, int g, int b) {
             r = clamp(r);
@@ -21,8 +29,10 @@ public class Operaciones {
         }
 
         static int clamp(int val) {
-            if (val < 0) return 0;
-            if (val > 255) return 255;
+            if (val < 0)
+                return 0;
+            if (val > 255)
+                return 255;
             return val;
         }
     }
@@ -37,7 +47,7 @@ public class Operaciones {
         int alto = imagen.getHeight();
         BufferedImage gris = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
 
-        // Usamos un stream paralelo opcional para mostrar cómo hacerlo. 
+        // Usamos un stream paralelo opcional para mostrar cómo hacerlo.
         // Podrías usar un simple for si no te interesa.
         IntStream.range(0, alto).parallel().forEach(y -> {
             for (int x = 0; x < ancho; x++) {
@@ -48,7 +58,7 @@ public class Operaciones {
                 int promedio = (r + g + b) / 3;
                 gris.setRGB(x, y, ColorUtils.toRGB(promedio, promedio, promedio));
             }
-        });   
+        });
         return gris;
     }
 
@@ -231,43 +241,43 @@ public class Operaciones {
     // --------------------------------------------------------
     public static BufferedImage filtroSobel(BufferedImage imagen) {
         int[][] kernelX = {
-            {-1,  0,  1},
-            {-2,  0,  2},
-            {-1,  0,  1}
+                { -1, 0, 1 },
+                { -2, 0, 2 },
+                { -1, 0, 1 }
         };
         int[][] kernelY = {
-            {-1, -2, -1},
-            { 0,  0,  0},
-            { 1,  2,  1}
+                { -1, -2, -1 },
+                { 0, 0, 0 },
+                { 1, 2, 1 }
         };
         return aplicarConvolucion(imagen, kernelX, kernelY);
     }
 
     public static BufferedImage filtroPrewitt(BufferedImage imagen) {
         int[][] kernelX = {
-            {-1, 0, 1},
-            {-1, 0, 1},
-            {-1, 0, 1}
+                { -1, 0, 1 },
+                { -1, 0, 1 },
+                { -1, 0, 1 }
         };
         int[][] kernelY = {
-            {-1, -1, -1},
-            { 0,  0,  0},
-            { 1,  1,  1}
+                { -1, -1, -1 },
+                { 0, 0, 0 },
+                { 1, 1, 1 }
         };
         return aplicarConvolucion(imagen, kernelX, kernelY);
     }
 
     public static BufferedImage filtroLaplaciano(BufferedImage imagen) {
         int[][] kernel = {
-            { 0, -1,  0},
-            {-1,  4, -1},
-            { 0, -1,  0}
+                { 0, -1, 0 },
+                { -1, 4, -1 },
+                { 0, -1, 0 }
         };
         return aplicarConvolucion(imagen, kernel, null);
     }
 
     /**
-     * Aplica convolución con dos kernels (X e Y). 
+     * Aplica convolución con dos kernels (X e Y).
      * Si kernelY es null, se realiza solo la convolución con kernelX.
      */
     private static BufferedImage aplicarConvolucion(BufferedImage imagen, int[][] kernelX, int[][] kernelY) {
@@ -328,12 +338,14 @@ public class Operaciones {
     // Morfología
     // --------------------------------------------------------
     /**
-     * Aplica una operación morfológica binaria dada por un structElem y un modo (erosion/dilatacion).
+     * Aplica una operación morfológica binaria dada por un structElem y un modo
+     * (erosion/dilatacion).
      * Para píxeles fuera del rango, se usa clamp (bordes).
      *
-     * @param imagen      Imagen de entrada (en escala de grises o binaria).
-     * @param structElem  Matriz de 0/1 que define la forma del elemento estructurante.
-     * @param esErosion   true para erosión, false para dilatación.
+     * @param imagen     Imagen de entrada (en escala de grises o binaria).
+     * @param structElem Matriz de 0/1 que define la forma del elemento
+     *                   estructurante.
+     * @param esErosion  true para erosión, false para dilatación.
      */
     public static BufferedImage morfologia(BufferedImage imagen, int[][] structElem, boolean esErosion) {
         int ancho = imagen.getWidth();
@@ -376,18 +388,18 @@ public class Operaciones {
     // Ejemplos: Erosión y Dilatación 3x3 con struct elem completo (todo 1)
     public static BufferedImage erosion3x3(BufferedImage imagen) {
         int[][] struct3x3 = {
-            {1,1,1},
-            {1,1,1},
-            {1,1,1}
+                { 1, 1, 1 },
+                { 1, 1, 1 },
+                { 1, 1, 1 }
         };
         return morfologia(imagen, struct3x3, true);
     }
 
     public static BufferedImage dilatacion3x3(BufferedImage imagen) {
         int[][] struct3x3 = {
-            {1,1,1},
-            {1,1,1},
-            {1,1,1}
+                { 1, 1, 1 },
+                { 1, 1, 1 },
+                { 1, 1, 1 }
         };
         return morfologia(imagen, struct3x3, false);
     }
@@ -477,7 +489,6 @@ public class Operaciones {
         return copia;
     }
 
-
     // --------------------------------------------------------
     // Filtros "simulados" de frecuencia
     // --------------------------------------------------------
@@ -539,7 +550,6 @@ public class Operaciones {
         return resultado;
     }
 
-
     // --------------------------------------------------------
     // Utilidades privadas
     // --------------------------------------------------------
@@ -547,8 +557,10 @@ public class Operaciones {
      * Ajusta el índice para que no se salga de [min..max].
      */
     private static int clampIndex(int idx, int min, int max) {
-        if (idx < min) return min;
-        if (idx > max) return max;
+        if (idx < min)
+            return min;
+        if (idx > max)
+            return max;
         return idx;
     }
 
@@ -556,7 +568,7 @@ public class Operaciones {
         int[] histograma = new int[256];
         int ancho = imagen.getWidth();
         int alto = imagen.getHeight();
-    
+
         for (int y = 0; y < alto; y++) {
             for (int x = 0; x < ancho; x++) {
                 int rgb = imagen.getRGB(x, y);
@@ -569,5 +581,5 @@ public class Operaciones {
         }
         return histograma;
     }
-    
+
 }
